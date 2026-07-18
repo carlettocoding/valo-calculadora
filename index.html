@@ -1084,6 +1084,10 @@
       }
     }
 
+    renderTasasRapidasYConversor();
+  }
+
+  function renderTasasRapidasYConversor() {
     // Actualizar Panel de Tasas Rápidas
     const rateDolarEl = $('convQuickRateDolar');
     const rateEuroEl = $('convQuickRateEuro');
@@ -1551,6 +1555,7 @@
     });
   }
 
+  renderTasasRapidasYConversor();
   setTimeout(consultarTasasEnTiempoReal, 200);
 </script>
 </body>
