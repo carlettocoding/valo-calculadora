@@ -1,5 +1,6 @@
-const CACHE_NAME = 'valo-v13';
+const CACHE_NAME = 'valo-v14';
 const ASSETS = [
+  './',
   'index.html',
   'manifest.json',
   'icon.png',
@@ -21,7 +22,7 @@ self.addEventListener('activate', (e) => {
         cacheNames
           .filter((name) => name !== CACHE_NAME)
           .map((name) => {
-            console.log('[Service Worker] Purging obsolete cache:', name);
+            console.log('[Service Worker Valo] Eliminando caché obsoleta:', name);
             return caches.delete(name);
           })
       )
@@ -32,32 +33,44 @@ self.addEventListener('activate', (e) => {
 self.addEventListener('fetch', (e) => {
   const isNavigation = e.request.mode === 'navigate' || 
                        e.request.url.endsWith('index.html') || 
+                       e.request.url.endsWith('/valo/') ||
+                       e.request.url.endsWith('/valo') ||
                        e.request.url === self.location.origin + '/';
 
-  // Estrategia Network-First para APIs de tasas e históricos
-  if (e.request.url.includes('dolarapi.com') || e.request.url.includes('criptoya.com') || e.request.url.includes('yadio.com')) {
+  const isApiRequest = e.request.url.includes('dolarapi.com') ||
+                       e.request.url.includes('criptoya.com') ||
+                       e.request.url.includes('yadio.io');
+
+  if (isNavigation || isApiRequest) {
+    // Estrategia Network-First: Intentar red primero para obtener siempre el último despliegue o tasas reales al día.
+    // Si falla (offline en iOS/Android), servir desde la caché guardada.
     e.respondWith(
       fetch(e.request)
         .then((response) => {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(e.request, clone));
+          if (response.status === 200) {
+            const copy = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(e.request, copy));
+          }
           return response;
         })
-        .catch(() => caches.match(e.request))
-    );
-    return;
-  }
-
-  // Caching estratégico para el resto de assets
-  if (isNavigation) {
-    e.respondWith(
-      fetch(e.request)
-        .catch(() => caches.match('index.html'))
+        .catch(() => {
+          return caches.match(e.request).then((res) => {
+            return res || caches.match('index.html') || caches.match('./');
+          });
+        })
     );
   } else {
+    // Para recursos estáticos (imágenes, manifest, etc.), Cache-First con fallback de red
     e.respondWith(
-      caches.match(e.request)
-        .then((cachedResponse) => cachedResponse || fetch(e.request))
+      caches.match(e.request).then((res) => {
+        return res || fetch(e.request).then((response) => {
+          if (response.status === 200) {
+            const copy = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(e.request, copy));
+          }
+          return response;
+        });
+      })
     );
   }
 });

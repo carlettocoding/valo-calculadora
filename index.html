@@ -1031,6 +1031,8 @@
     const updateEl = $('lastUpdateTime');
     if (updateEl) updateEl.textContent = 'Sincronizando...';
 
+    let exitosas = 0;
+
     // 1. Obtener BCV Dólar y Euro, y Paralelo
     try {
       const r1 = await fetchConTimeout('https://ve.dolarapi.com/v1/dolares/oficial');
@@ -1038,6 +1040,7 @@
         const d1 = await r1.json();
         globalTasaBCV = parseFloat(d1.promedio);
         localStorage.setItem('globalTasaBCV', globalTasaBCV);
+        exitosas++;
       }
     } catch (e) { console.error('Error BCV Dolar:', e); }
 
@@ -1047,6 +1050,7 @@
         const d2 = await r2.json();
         globalTasaBcvEUR = parseFloat(d2.promedio);
         localStorage.setItem('globalTasaBcvEUR', globalTasaBcvEUR);
+        exitosas++;
       }
     } catch (e) { console.error('Error BCV Euro:', e); }
 
@@ -1056,6 +1060,7 @@
         const d4 = await r4.json();
         globalTasaP2P = parseFloat(d4.promedio);
         localStorage.setItem('globalTasaP2P', globalTasaP2P);
+        exitosas++;
       }
     } catch (e) { console.error('Error Paralelo:', e); }
 
@@ -1064,12 +1069,20 @@
     if (valorUsdtP2P !== null && !isNaN(valorUsdtP2P) && valorUsdtP2P > 0) {
       globalTasaUsdtP2P = valorUsdtP2P;
       localStorage.setItem('globalTasaUsdtP2P', valorUsdtP2P);
+      exitosas++;
     }
 
     ratesUpdateTimestamp = new Date();
     const hora = ratesUpdateTimestamp.toLocaleTimeString('es-VE', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
     const fecha = ratesUpdateTimestamp.toLocaleDateString('es-VE', { day: '2-digit', month: '2-digit' });
-    if (updateEl) updateEl.textContent = `Sincronizado ${fecha} a las ${hora}`;
+    
+    if (updateEl) {
+      if (exitosas > 0) {
+        updateEl.textContent = `Sincronizado ${fecha} a las ${hora}`;
+      } else {
+        updateEl.textContent = `Sin conexión (Usando datos guardados)`;
+      }
+    }
 
     // Actualizar Panel de Tasas Rápidas
     const rateDolarEl = $('convQuickRateDolar');
