@@ -302,14 +302,22 @@
       </div>
     </section>
 
+    <!-- Toast Flotante de Estado de Red -->
+    <div id="networkToast" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 hidden transition-all duration-300 transform -translate-y-4 opacity-0 pointer-events-none">
+      <div class="glass-card bg-slate-900/95 border border-blue-500/40 text-slate-100 text-xs font-semibold px-4 py-2.5 rounded-full shadow-2xl flex items-center gap-2.5 backdrop-blur-md">
+        <span id="networkToastIcon" class="text-sm">📶</span>
+        <span id="networkToastText">Conexión restablecida. Actualizando tasas...</span>
+      </div>
+    </div>
+
     <!-- Indicador de Sincronización Sutil -->
     <section id="syncStatusBar" class="glass-card rounded-2xl px-4 py-2.5 mb-4 flex items-center justify-between gap-3 text-xs shadow-md bg-white/5">
       <div class="flex items-center gap-2">
-        <span class="relative flex h-2 w-2">
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-          <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+        <span id="syncStatusPing" class="relative flex h-2 w-2">
+          <span id="syncPingDot" class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+          <span id="syncDot" class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
         </span>
-        <span class="text-slate-400 font-semibold">Sincronización Automática</span>
+        <span id="syncStatusTitle" class="text-slate-400 font-semibold">Sincronización Automática</span>
       </div>
       <div class="text-right">
         <span id="lastUpdateTime" class="text-[10px] text-slate-500 font-bold">Actualizando tasas...</span>
@@ -1027,9 +1035,59 @@
     return rate;
   }
 
+  function setSyncStatusOnline(timestampTexto) {
+    const updateEl = $('lastUpdateTime');
+    const pingDot = $('syncPingDot');
+    const dot = $('syncDot');
+    const titleEl = $('syncStatusTitle');
+
+    if (pingDot) pingDot.classList.remove('hidden');
+    if (dot) dot.className = 'relative inline-flex rounded-full h-2 w-2 bg-emerald-500';
+    if (titleEl) titleEl.textContent = 'Sincronización Automática';
+    if (updateEl) updateEl.textContent = `Sincronizado ${timestampTexto}`;
+  }
+
+  function setSyncStatusOffline(ultimaGuardada) {
+    const updateEl = $('lastUpdateTime');
+    const pingDot = $('syncPingDot');
+    const dot = $('syncDot');
+    const titleEl = $('syncStatusTitle');
+
+    if (pingDot) pingDot.classList.add('hidden');
+    if (dot) dot.className = 'relative inline-flex rounded-full h-2 w-2 bg-amber-500';
+    if (titleEl) titleEl.textContent = 'Modo Sin Conexión';
+    if (updateEl) {
+      updateEl.textContent = ultimaGuardada ? `Última tasa: ${ultimaGuardada}` : 'Sin conexión (Datos guardados)';
+    }
+  }
+
+  let toastTimeout = null;
+  function mostrarToastRed(mensaje, icono = '📶', duracionMs = 3500) {
+    const toast = $('networkToast');
+    const toastIcon = $('networkToastIcon');
+    const toastText = $('networkToastText');
+    if (!toast || !toastText) return;
+
+    if (toastIcon) toastIcon.textContent = icono;
+    toastText.textContent = mensaje;
+
+    toast.classList.remove('hidden');
+    setTimeout(() => {
+      toast.classList.remove('-translate-y-4', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+    }, 10);
+
+    if (toastTimeout) clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => {
+      toast.classList.remove('translate-y-0', 'opacity-100');
+      toast.classList.add('-translate-y-4', 'opacity-0');
+      setTimeout(() => toast.classList.add('hidden'), 300);
+    }, duracionMs);
+  }
+
   async function consultarTasasEnTiempoReal() {
     const updateEl = $('lastUpdateTime');
-    if (updateEl) updateEl.textContent = 'Sincronizando...';
+    if (updateEl && navigator.onLine) updateEl.textContent = 'Sincronizando...';
 
     let exitosas = 0;
 
@@ -1072,16 +1130,17 @@
       exitosas++;
     }
 
-    ratesUpdateTimestamp = new Date();
-    const hora = ratesUpdateTimestamp.toLocaleTimeString('es-VE', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-    const fecha = ratesUpdateTimestamp.toLocaleDateString('es-VE', { day: '2-digit', month: '2-digit' });
-    
-    if (updateEl) {
-      if (exitosas > 0) {
-        updateEl.textContent = `Sincronizado ${fecha} a las ${hora}`;
-      } else {
-        updateEl.textContent = `Sin conexión (Usando datos guardados)`;
-      }
+    if (exitosas > 0) {
+      ratesUpdateTimestamp = new Date();
+      const hora = ratesUpdateTimestamp.toLocaleTimeString('es-VE', { hour: '2-digit', minute: '2-digit' });
+      const fecha = ratesUpdateTimestamp.toLocaleDateString('es-VE', { day: '2-digit', month: '2-digit' });
+      const timeStr = `${fecha} a las ${hora}`;
+      
+      localStorage.setItem('ratesLastSuccessfulUpdate', timeStr);
+      setSyncStatusOnline(timeStr);
+    } else {
+      const ultimaGuardada = localStorage.getItem('ratesLastSuccessfulUpdate');
+      setSyncStatusOffline(ultimaGuardada);
     }
 
     renderTasasRapidasYConversor();
@@ -1111,6 +1170,18 @@
 
     updateConversorUI();
   }
+
+  // Eventos de Red (Online / Offline)
+  window.addEventListener('online', async () => {
+    mostrarToastRed('¡Conexión restablecida! Actualizando tasas...', '📶', 4000);
+    await consultarTasasEnTiempoReal();
+  });
+
+  window.addEventListener('offline', () => {
+    mostrarToastRed('Modo sin conexión. Usando datos guardados.', '⚠️', 3500);
+    const ultimaGuardada = localStorage.getItem('ratesLastSuccessfulUpdate');
+    setSyncStatusOffline(ultimaGuardada);
+  });
 
   $('refreshRatesBtn').addEventListener('click', async () => {
     const btn = $('refreshRatesBtn'); const icon = $('refreshIcon');
@@ -1555,6 +1626,12 @@
     });
   }
 
+  const ultimaGuardadaInicial = localStorage.getItem('ratesLastSuccessfulUpdate');
+  if (navigator.onLine) {
+    if (ultimaGuardadaInicial) setSyncStatusOnline(ultimaGuardadaInicial);
+  } else {
+    setSyncStatusOffline(ultimaGuardadaInicial);
+  }
   renderTasasRapidasYConversor();
   setTimeout(consultarTasasEnTiempoReal, 200);
 </script>
