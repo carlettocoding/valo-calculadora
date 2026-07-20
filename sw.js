@@ -1,4 +1,4 @@
-const CACHE_NAME = 'valo-v17';
+const CACHE_NAME = 'valo-v20';
 const ASSETS = [
   './',
   'index.html',
@@ -6,6 +6,12 @@ const ASSETS = [
   'icon.png',
   'favicon.png'
 ];
+
+self.addEventListener('message', (e) => {
+  if (e.data && e.data.action === 'skipWaiting') {
+    self.skipWaiting();
+  }
+});
 
 self.addEventListener('install', (e) => {
   e.waitUntil(

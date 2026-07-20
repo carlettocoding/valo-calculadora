@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Versión-v1.1.0-blue?style=for-the-badge&logo=semver" alt="Version">
+  <img src="https://img.shields.io/badge/Versión-v1.2.0-blue?style=for-the-badge&logo=semver" alt="Version">
   <img src="https://img.shields.io/badge/PWA-Soportado-brightgreen?style=for-the-badge&logo=progressive-web-apps" alt="PWA">
   <img src="https://img.shields.io/badge/Diseño-Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css" alt="Tailwind CSS">
 </p>
