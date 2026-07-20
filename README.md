@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Versión-v1.0.0-blue?style=for-the-badge&logo=semver" alt="Version">
+  <img src="https://img.shields.io/badge/Versión-v1.1.0-blue?style=for-the-badge&logo=semver" alt="Version">
   <img src="https://img.shields.io/badge/PWA-Soportado-brightgreen?style=for-the-badge&logo=progressive-web-apps" alt="PWA">
   <img src="https://img.shields.io/badge/Diseño-Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css" alt="Tailwind CSS">
 </p>
@@ -46,3 +46,23 @@ Para ejecutar Valo en tu máquina de desarrollo de forma local:
    ```bash
    git clone https://github.com/tu-usuario/valo.git
    cd valo
+   ```
+3. Instala las dependencias necesarias:
+   ```bash
+   npm install
+   ```
+4. Inicia el servidor de desarrollo:
+   ```bash
+   npm run dev
+   # o alternativamente:
+   node server.js
+   ```
+5. Abre tu navegador en [http://localhost:3001](http://localhost:3001).
+
+---
+
+## 📱 Soporte PWA
+
+Para instalar la aplicación en tu pantalla de inicio en Android, iOS o tu Escritorio:
+1. Abre el enlace del sitio desplegado en tu navegador preferido.
+2. Haz clic en el botón de **Instalar aplicación** en la barra del navegador o selecciona **Agregar a la pantalla de inicio** en el menú de compartir de Safari (iOS).

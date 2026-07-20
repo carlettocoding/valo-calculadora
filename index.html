@@ -236,7 +236,7 @@
       <div class="flex-1 text-center min-w-0 px-1 md:absolute md:left-1/2 md:-translate-x-1/2 md:top-1/2 md:-translate-y-1/2">
         <h1 id="appTitleBtn" class="text-sm sm:text-base md:text-lg font-extrabold tracking-tight cursor-pointer hover:text-blue-300 transition-colors inline-flex items-center justify-center gap-1 py-1 text-slate-100 truncate max-w-full">
           Valo
-          <span class="text-[9px] px-1.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/25">v1.0.0</span>
+          <span class="text-[9px] px-1.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/25">v1.1.0</span>
         </h1>
       </div>
       <div class="flex items-center gap-1.5 shrink-0">
@@ -332,30 +332,62 @@
         <div class="md:col-span-6 lg:col-span-7 space-y-4">
           <section id="conversorSeccionPrincipal" class="glass-card rounded-2xl p-5 shadow-lg border-t border-white/5 bg-white/5">
             
-            <!-- Panel de Tasas Rápidas -->
-            <div class="grid grid-cols-3 gap-2 p-2.5 mb-3 bg-slate-950 border border-slate-800 rounded-xl text-center select-none">
-              <div>
-                <span class="block text-[9px] text-slate-400 font-semibold uppercase tracking-wider">Dólar BCV</span>
-                <span id="convQuickRateDolar" class="text-xs font-bold text-slate-100">Cargando...</span>
+            <!-- Panel de Tasas Destacadas (Hero Rates Display) -->
+            <div class="mb-5 p-4 sm:p-5 bg-slate-950/90 border border-slate-800/90 rounded-2xl shadow-xl select-none relative overflow-hidden backdrop-blur-md">
+              <div class="flex items-center justify-between mb-3 px-1">
+                <span class="text-[11px] sm:text-xs font-extrabold uppercase tracking-widest text-slate-400 flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  Tasas Oficiales y de Mercado
+                </span>
+                <span class="text-[10px] font-semibold text-slate-500">En tiempo real</span>
               </div>
-              <div class="border-x border-slate-800/80">
-                <span class="block text-[9px] text-slate-400 font-semibold uppercase tracking-wider">Euro BCV</span>
-                <span id="convQuickRateEuro" class="text-xs font-bold text-slate-100">Cargando...</span>
-              </div>
-              <div>
-                <span class="block text-[9px] text-slate-400 font-semibold uppercase tracking-wider">USDT P2P</span>
-                <span id="convQuickRateUsdt" class="text-xs font-bold text-slate-100">Cargando...</span>
-              </div>
-            </div>
 
-            <!-- Diferencial Cambiario Fijo (Dólar BCV vs USDT) -->
-            <div class="p-3 mb-3 bg-blue-500/5 border border-blue-500/20 rounded-xl flex items-center justify-between text-xs select-none">
-              <span class="text-[11px] text-slate-400 font-semibold flex items-center gap-1.5">
-                <span>🔄</span> Diferencial Cambiario (BCV vs USDT):
-              </span>
-              <span id="convPermanentSpread" class="font-bold text-blue-400 text-right">
-                Cargando...
-              </span>
+              <!-- Tasas Oficiales BCV (Lado a Lado) -->
+              <div class="grid grid-cols-2 gap-3 mb-3">
+                
+                <!-- Dólar BCV -->
+                <div class="flex flex-col items-center justify-center p-3.5 sm:p-4 rounded-xl bg-slate-900/90 border border-slate-800/80 hover:border-blue-500/40 transition-all duration-200 shadow-inner group">
+                  <div class="flex items-center gap-1.5 text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">
+                    <span>💵</span> Dólar BCV
+                  </div>
+                  <span id="convQuickRateDolar" class="text-2xl sm:text-3xl font-extrabold text-slate-100 tracking-tight group-hover:scale-105 transition-transform duration-200">
+                    Cargando...
+                  </span>
+                </div>
+
+                <!-- Euro BCV -->
+                <div class="flex flex-col items-center justify-center p-3.5 sm:p-4 rounded-xl bg-slate-900/90 border border-slate-800/80 hover:border-blue-500/40 transition-all duration-200 shadow-inner group">
+                  <div class="flex items-center gap-1.5 text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">
+                    <span>💶</span> Euro BCV
+                  </div>
+                  <span id="convQuickRateEuro" class="text-2xl sm:text-3xl font-extrabold text-slate-100 tracking-tight group-hover:scale-105 transition-transform duration-200">
+                    Cargando...
+                  </span>
+                </div>
+
+              </div>
+
+              <!-- Tasa de Mercado P2P (Fila Inferior Dedicada) -->
+              <div class="mb-3">
+                <div class="flex flex-col items-center justify-center p-3.5 sm:p-4 rounded-xl bg-slate-900/90 border border-slate-800/80 hover:border-blue-500/40 transition-all duration-200 shadow-inner group w-full">
+                  <div class="flex items-center gap-1.5 text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">
+                    <span>🪙</span> USDT P2P (Binance)
+                  </div>
+                  <span id="convQuickRateUsdt" class="text-2xl sm:text-3xl font-extrabold text-slate-100 tracking-tight group-hover:scale-105 transition-transform duration-200">
+                    Cargando...
+                  </span>
+                </div>
+              </div>
+
+              <!-- Diferencial Cambiario (BCV vs USDT) -->
+              <div class="p-3 bg-blue-500/10 border border-blue-500/25 rounded-xl flex items-center justify-between text-xs select-none">
+                <span class="text-xs text-slate-300 font-semibold flex items-center gap-1.5">
+                  <span>🔄</span> Diferencial Cambiario (BCV vs USDT):
+                </span>
+                <span id="convPermanentSpread" class="font-extrabold text-blue-400 text-xs sm:text-sm">
+                  Cargando...
+                </span>
+              </div>
             </div>
 
             <!-- Selectores de Divisa -->
@@ -585,7 +617,7 @@
       
       <div class="text-center pb-4 mb-4 border-b border-white/5">
         <h3 class="text-xl font-bold tracking-tight text-slate-100 flex items-center justify-center gap-2">
-          Valo <span class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/25">v1.0.0</span>
+          Valo <span class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/25">v1.1.0</span>
         </h3>
         <p class="text-[11px] text-slate-400 mt-2 font-medium">Acerca de la Aplicación</p>
       </div>
@@ -600,14 +632,27 @@
       </h4>
 
       <div class="space-y-5 text-left max-h-[40vh] overflow-y-auto pr-2">
-        <!-- v1.0.0 -->
+        <!-- v1.1.0 -->
         <div class="border-l-2 border-emerald-400 pl-4 relative">
           <div class="absolute -left-[6px] top-1.5 w-3 h-3 rounded-full bg-slate-900 border-2 border-emerald-400"></div>
           <div class="flex items-center gap-2 mb-1">
-            <span class="font-bold text-slate-100 text-sm">v1.0.0</span>
+            <span class="font-bold text-slate-100 text-sm">v1.1.0</span>
             <span class="text-[9px] bg-emerald-500/15 text-emerald-400 px-1.5 py-0.5 rounded-full border border-emerald-500/30">Actual</span>
           </div>
-          <p class="text-xs font-semibold text-emerald-400/90 mb-2">Versión Inicial Standalone</p>
+          <p class="text-xs font-semibold text-emerald-400/90 mb-2">Rediseño de Tasas Destacadas (Hero Rates Module)</p>
+          <ul class="list-disc list-inside space-y-1 text-xs text-slate-400 leading-relaxed">
+            <li><strong>Formato Hero de Gran Escala:</strong> Aumento significativo del tamaño tipográfico de las cotizaciones (24px - 30px+) para máxima legibilidad al ingresar a la app.</li>
+            <li><strong>Disposición Optimizada:</strong> Organización en 2 niveles con las tasas oficiales (Dólar BCV y Euro BCV) lado a lado en la fila superior y la tasa de mercado (USDT P2P) a todo lo ancho en la fila inferior.</li>
+            <li><strong>Estética e Indicadores en Vivo:</strong> Indicador verde animado en tiempo real, bordes interactivos al pasar el cursor y mejor integración del banner de diferencial cambiario (spread).</li>
+          </ul>
+        </div>
+        <!-- v1.0.0 -->
+        <div class="border-l-2 border-slate-700 pl-4 relative">
+          <div class="absolute -left-[6px] top-1.5 w-3 h-3 rounded-full bg-slate-900 border-2 border-slate-700"></div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="font-bold text-slate-100 text-sm">v1.0.0</span>
+          </div>
+          <p class="text-xs font-semibold text-slate-400 mb-2">Versión Inicial Standalone</p>
           <ul class="list-disc list-inside space-y-1 text-xs text-slate-400 leading-relaxed">
             <li><strong>Derivación Directa:</strong> Extraída del conversor y las gráficas del repositorio original de Arby (Calculadora de Arbitraje).</li>
             <li><strong>Diseño Layout Idéntico:</strong> Mantiene la misma estructura de dos columnas de escritorio, Tooltip táctil y panel superior.</li>
@@ -622,7 +667,6 @@
 
 <script>
   const $ = id => document.getElementById(id);
-
   // ==========================================
   // ESTADO GLOBAL Y VARIABLES
   // ==========================================
