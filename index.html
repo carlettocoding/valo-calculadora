@@ -121,11 +121,20 @@
     }
     .hover\:border-blue-400:hover { border-color: rgb(var(--accent-r), var(--accent-g), var(--accent-b)) !important; }
 
+    /* Selector de Tamaño de Interfaz */
+    html.size-sm { font-size: 14px; }
+    html.size-md { font-size: 16px; }
+    html.size-lg { font-size: 18px; }
+
     /* Mapeo de Clases Clásicas en Modo Claro */
     html.light body,
     html.light .bg-slate-950 { background-color: #dde3ed !important; }
     html.light .bg-slate-950\/50 { background-color: #c8d1df !important; }
+    html.light .bg-slate-950\/90 { background-color: rgba(226, 232, 240, 0.95) !important; }
+    html.light .bg-slate-950\/95 { background-color: rgba(226, 232, 240, 0.98) !important; }
     html.light .bg-slate-900 { background-color: #e2e8f0 !important; }
+    html.light .bg-slate-900\/90 { background-color: rgba(255, 255, 255, 0.90) !important; }
+    html.light .bg-slate-900\/95 { background-color: rgba(241, 245, 249, 0.98) !important; }
     html.light .bg-slate-800,
     html.light .bg-slate-800\/80 { background-color: #cbd5e1 !important; }
     html.light .text-slate-100 { color: #0f172a !important; }
@@ -134,9 +143,18 @@
     html.light .text-slate-400 { color: #475569 !important; }
     html.light .text-slate-500 { color: #64748b !important; }
     html.light .border-slate-800 { border-color: #cbd5e1 !important; }
+    html.light .border-slate-800\/90,
+    html.light .border-slate-800\/80 { border-color: #94a3b8 !important; }
     html.light .border-slate-700 { border-color: #94a3b8 !important; }
     html.light .border-white\/5 { border-color: #cbd5e1 !important; }
     html.light .border-white\/10 { border-color: #94a3b8 !important; }
+
+    /* Botón flotante de refresco en modo claro */
+    html.light #refreshRatesBtn {
+      background-color: #cbd5e1 !important;
+      border-color: #94a3b8 !important;
+      color: #0f172a !important;
+    }
 
     /* Fondos Animados Premium */
     .bg-grid {
@@ -208,6 +226,9 @@
       themeMeta.setAttribute('content', '#dde3ed');
     }
   }
+
+  const savedSize = localStorage.getItem('arbitrajeUiSize') || 'size-md';
+  document.documentElement.classList.add(savedSize);
   
   try {
     const savedAccent = JSON.parse(localStorage.getItem('arbitrajeAccent') || '{"r":96,"g":165,"b":250,"color":"blue"}');
@@ -236,11 +257,11 @@
       <div class="flex-1 text-center min-w-0 px-1 md:absolute md:left-1/2 md:-translate-x-1/2 md:top-1/2 md:-translate-y-1/2">
         <h1 id="appTitleBtn" class="text-sm sm:text-base md:text-lg font-extrabold tracking-tight cursor-pointer hover:text-blue-300 transition-colors inline-flex items-center justify-center gap-1 py-1 text-slate-100 truncate max-w-full">
           Valo
-          <span class="text-[9px] px-1.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/25">v1.2.0</span>
+          <span class="text-[9px] px-1.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/25">v1.3.0</span>
         </h1>
       </div>
       <div class="flex items-center gap-1.5 shrink-0">
-        <button id="refreshRatesBtn" type="button" aria-label="Actualizar tasas" class="w-9 h-9 flex items-center justify-center rounded-full bg-slate-800/80 border border-slate-700/80 text-slate-300 hover:text-blue-400 hover:scale-105 active:scale-95 transition" title="Actualizar tasas ahora">
+        <button id="refreshRatesBtn" type="button" aria-label="Actualizar tasas" class="fixed bottom-5 right-5 z-40 w-12 h-12 md:w-9 md:h-9 rounded-full bg-slate-800/90 md:bg-slate-800/80 border border-slate-700/80 text-slate-300 hover:text-blue-400 shadow-2xl md:shadow-none hover:scale-105 active:scale-95 transition flex items-center justify-center text-lg md:text-base md:relative md:bottom-auto md:right-auto md:z-auto" title="Actualizar tasas ahora">
           <span id="refreshIcon" class="inline-block transition-transform duration-300">🔄</span>
         </button>
         <button id="themeToggleBtn" type="button" aria-label="Cambiar tema" class="w-9 h-9 flex items-center justify-center rounded-full bg-slate-800/80 border border-slate-700/80 text-slate-300 hover:text-blue-400 hover:scale-105 active:scale-95 transition" title="Cambiar tema claro/oscuro">
@@ -256,6 +277,22 @@
           🎨 Personalizar Interfaz
         </h3>
         <button id="closeSettingsBtn" class="text-slate-500 hover:text-slate-300 text-xs transition">Cerrar</button>
+      </div>
+
+      <!-- Selector de Tamaño de Interfaz -->
+      <div class="mb-4">
+        <p class="text-[10px] text-slate-400 mb-2 font-medium">Tamaño de la Interfaz</p>
+        <div class="grid grid-cols-3 gap-2">
+          <button class="ui-size-btn text-[10px] font-medium bg-white/5 hover:bg-white/10 text-slate-300 py-2 px-2.5 rounded-xl border border-white/5 transition flex items-center justify-center gap-1" data-size="size-sm">
+            <span>🔍</span> Compacto
+          </button>
+          <button class="ui-size-btn text-[10px] font-medium bg-white/5 hover:bg-white/10 text-slate-300 py-2 px-2.5 rounded-xl border border-white/5 transition flex items-center justify-center gap-1" data-size="size-md">
+            <span>📱</span> Normal
+          </button>
+          <button class="ui-size-btn text-[10px] font-medium bg-white/5 hover:bg-white/10 text-slate-300 py-2 px-2.5 rounded-xl border border-white/5 transition flex items-center justify-center gap-1" data-size="size-lg">
+            <span>🔍</span> Amplio
+          </button>
+        </div>
       </div>
       
       <!-- Selector de Color de Acento -->
@@ -631,7 +668,7 @@
       
       <div class="text-center pb-4 mb-4 border-b border-white/5">
         <h3 class="text-xl font-bold tracking-tight text-slate-100 flex items-center justify-center gap-2">
-          Valo <span class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/25">v1.2.0</span>
+          Valo <span class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/25">v1.3.0</span>
         </h3>
         <p class="text-[11px] text-slate-400 mt-2 font-medium">Acerca de la Aplicación</p>
       </div>
@@ -646,12 +683,26 @@
       </h4>
 
       <div class="space-y-5 text-left max-h-[40vh] overflow-y-auto pr-2">
-        <!-- v1.2.0 -->
+        <!-- v1.3.0 -->
         <div class="border-l-2 border-emerald-400 pl-4 relative">
           <div class="absolute -left-[6px] top-1.5 w-3 h-3 rounded-full bg-slate-900 border-2 border-emerald-400"></div>
           <div class="flex items-center gap-2 mb-1">
-            <span class="font-bold text-slate-100 text-sm">v1.2.0</span>
+            <span class="font-bold text-slate-100 text-sm">v1.3.0</span>
             <span class="text-[9px] bg-emerald-500/15 text-emerald-400 px-1.5 py-0.5 rounded-full border border-emerald-500/30">Actual</span>
+          </div>
+          <p class="text-xs font-semibold text-emerald-400/90 mb-2">Selector de Tamaños, Botón Flotante y Mejoras de Modo Claro</p>
+          <ul class="list-disc list-inside space-y-1 text-xs text-slate-400 leading-relaxed">
+            <li><strong>Selector de Tamaño de Interfaz:</strong> Nueva opción en personalización para elegir entre escala Compacta, Normal y Amplia con guardado persistente.</li>
+            <li><strong>Botón de Refrescar Flotante (Móvil):</strong> El botón de actualización de tasas ahora flota fijo en la parte inferior derecha en dispositivos móviles para un acceso rápido al desplazarse.</li>
+            <li><strong>Corrección de Contraste en Modo Claro:</strong> Solucionado el problema de visibilidad en el módulo de tasas destacadas en tema claro.</li>
+            <li><strong>Formatos Estándar de Divisas:</strong> Los resultados de conversión reflejan explícitamente USD, EUR y USDT en lugar de palabras como DOLAR o EURO.</li>
+          </ul>
+        </div>
+        <!-- v1.2.0 -->
+        <div class="border-l-2 border-slate-700 pl-4 relative">
+          <div class="absolute -left-[6px] top-1.5 w-3 h-3 rounded-full bg-slate-900 border-2 border-slate-700"></div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="font-bold text-slate-100 text-sm">v1.2.0</span>
           </div>
           <p class="text-xs font-semibold text-emerald-400/90 mb-2">Botón de Actualización PWA y Maximizador de Selección</p>
           <ul class="list-disc list-inside space-y-1 text-xs text-slate-400 leading-relaxed">
@@ -828,6 +879,13 @@
     return 'Bs ' + valor.toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
 
+  function getCurrencyCode(option = convActiveOption) {
+    if (option === 'DOLAR') return 'USD';
+    if (option === 'EURO') return 'EUR';
+    if (option === 'USDT') return 'USDT';
+    return 'USD';
+  }
+
   function calcularConversor(fuente = lastEdited) {
     lastEdited = fuente;
     const tasaActual = getTasaConvertidor();
@@ -860,7 +918,9 @@
       }
       divisaAmount = bs / tasaActual;
       convInputDivisa.value = divisaAmount.toFixed(2);
-      $('convResultadoFinal').textContent = divisaAmount.toFixed(2) + ' ' + (convActiveOption === 'PROPIA' ? 'USD' : convActiveOption);
+      const code = getCurrencyCode(convActiveOption);
+      const formattedDivisa = divisaAmount.toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      $('convResultadoFinal').textContent = `${formattedDivisa} ${code}`;
     }
 
     // Calcular Diferencia entre tasas para panel inferior informativo
@@ -1327,6 +1387,28 @@
     });
   });
 
+  // Tamaño de Interfaz
+  const uiSizeBtns = document.querySelectorAll('.ui-size-btn');
+  function updateUiSizeBtnUI(activeSize) {
+    uiSizeBtns.forEach(btn => {
+      if (btn.dataset.size === activeSize) {
+        btn.className = "ui-size-btn text-[10px] font-bold bg-blue-500/20 text-blue-400 py-2 px-2.5 rounded-xl border border-blue-400/30 transition flex items-center justify-center gap-1";
+      } else {
+        btn.className = "ui-size-btn text-[10px] font-medium bg-white/5 hover:bg-white/10 text-slate-300 py-2 px-2.5 rounded-xl border border-white/5 transition flex items-center justify-center gap-1";
+      }
+    });
+  }
+
+  uiSizeBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const size = btn.dataset.size;
+      document.documentElement.classList.remove('size-sm', 'size-md', 'size-lg');
+      document.documentElement.classList.add(size);
+      localStorage.setItem('arbitrajeUiSize', size);
+      updateUiSizeBtnUI(size);
+    });
+  });
+
   // Inicializar UI de personalización
   try {
     const savedAccent = JSON.parse(localStorage.getItem('arbitrajeAccent') || '{"color":"blue"}');
@@ -1339,6 +1421,9 @@
       b.className = "bg-style-btn text-[10px] font-bold bg-blue-500/20 text-blue-400 py-2 px-2.5 rounded-xl border border-blue-400/30 transition";
     }
   });
+
+  const activeUiSize = localStorage.getItem('arbitrajeUiSize') || 'size-md';
+  updateUiSizeBtnUI(activeUiSize);
 
   // ==========================================
   // MANEJADOR DEL ACERCA DE MODAL

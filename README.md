@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Versión-v1.2.0-blue?style=for-the-badge&logo=semver" alt="Version">
+  <img src="https://img.shields.io/badge/Versión-v1.3.0-blue?style=for-the-badge&logo=semver" alt="Version">
   <img src="https://img.shields.io/badge/PWA-Soportado-brightgreen?style=for-the-badge&logo=progressive-web-apps" alt="PWA">
   <img src="https://img.shields.io/badge/Diseño-Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css" alt="Tailwind CSS">
 </p>
@@ -14,14 +14,16 @@
 
 ## ✨ Características Principales
 
-*   **🔄 Conversión Bidireccional en Vivo**: Conversiones instantáneas de *Divisa ⇄ Bolívares* con cuatro opciones segmentadas:
+*   **🔄 Conversión Bidireccional en Vivo**: Conversiones instantáneas de *Divisa ⇄ Bolívares* mostrando resultados en formato estándar (`USD`, `EUR`, `USDT`) con cuatro opciones segmentadas:
     *   **🏛️ Dólar Oficial (BCV)**
     *   **🇪🇺 Euro Oficial (BCV)**
     *   **🪙 USDT (Binance P2P)** (con cálculo automático de la brecha/spread cambiario respecto al BCV).
     *   **✍️ Tasa Propia** (personalizada y guardada persistentemente en `localStorage`).
+*   **📐 Selector de Tamaño de Interfaz**: Permite cambiar la escala de la aplicación entre 3 tamaños (*Compacto*, *Normal* y *Amplio*) adaptándose perfectamente a cualquier preferencia de pantalla.
+*   **📱 Botón de Refrescar Flotante en Móvil**: Botón de acción flotante (FAB) posicionado de forma fija en la esquina inferior derecha en dispositivos móviles para un acceso rápido y sin esfuerzo al desplazarse por la página.
 *   **📊 Gráficas de Tendencia Interactivas**: Widget colapsable con curvas SVG interactivas y táctiles que muestran el historial de tasas para rangos de `10d`, `1m`, `3m`, `6m` y `1a`, utilizando caché en memoria para una navegación ultra veloz.
 *   **🔍 Buscador Histórico**: Consulta tasas de cambio de fechas anteriores para Dólar BCV, Euro BCV y Dólar Paralelo con un selector inteligente que limpia el estado al alternar entre divisas.
-*   **🎨 Personalización Premium**: Cambia el color de acento, el tema (Claro / Oscuro) y el fondo (*Sólido Pizarra*, *Aurora Cósmica*, *Rejilla Cibernética*) adaptándose y sincronizándose con la barra de navegación del móvil.
+*   **🎨 Personalización Premium y Modo Claro Ajustado**: Cambia el color de acento, el tema (Claro / Oscuro con legibilidad completa en módulos de tasas) y el fondo (*Sólido Pizarra*, *Aurora Cósmica*, *Rejilla Cibernética*) adaptándose y sincronizándose con la barra de navegación del móvil.
 *   **📶 Soporte Offline-First**: Funciona 100% sin conexión una vez instalada en tu ordenador o dispositivo móvil gracias a su Service Worker integrado.
 
 ---
