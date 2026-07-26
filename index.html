@@ -195,9 +195,16 @@
       left: 50%;
       transform: translateX(-50%);
       pointer-events: none;
-      z-index: 10;
+      z-index: 30;
       transition: opacity 0.15s ease, left 0.1s ease;
       filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
+      white-space: nowrap !important;
+      min-width: 110px;
+      width: max-content;
+    }
+    html.light #profitChartTooltip {
+      background-color: rgba(255, 255, 255, 0.96) !important;
+      border-color: #cbd5e1 !important;
     }
 
     /* Estilos del gráfico de tendencia interactivo */
@@ -257,7 +264,7 @@
       <div class="flex-1 text-center min-w-0 px-1 md:absolute md:left-1/2 md:-translate-x-1/2 md:top-1/2 md:-translate-y-1/2">
         <h1 id="appTitleBtn" class="text-sm sm:text-base md:text-lg font-extrabold tracking-tight cursor-pointer hover:text-blue-300 transition-colors inline-flex items-center justify-center gap-1 py-1 text-slate-100 truncate max-w-full">
           Valo
-          <span class="text-[9px] px-1.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/25">v1.3.0</span>
+          <span class="text-[9px] px-1.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/25">v1.3.1</span>
         </h1>
       </div>
       <div class="flex items-center gap-1.5 shrink-0">
@@ -619,9 +626,10 @@
               <!-- Contenedor del Histórico Gráfico -->
               <div class="glass-input rounded-2xl p-4 border border-white/5 relative">
                 <!-- Tooltip único absoluto al tope -->
-                <div id="profitChartTooltip" class="hidden bg-slate-950/95 border border-slate-800 text-[10px] px-2.5 py-1.5 rounded-lg leading-normal text-center shadow-xl">
-                  <span id="bcvHistTooltipDate" class="text-slate-400 block font-semibold">--/--</span>
-                  <span id="bcvHistTooltipValue" class="text-slate-100 font-extrabold block text-xs mt-0.5">Bs --,--</span>
+                <div id="profitChartTooltip" class="hidden bg-slate-950/95 border border-slate-800 text-[10px] px-3 py-2 rounded-xl leading-tight text-center shadow-2xl z-30 whitespace-nowrap min-w-[110px]">
+                  <span id="bcvHistTooltipDate" class="text-slate-400 block font-semibold text-[10px] whitespace-nowrap">--/--</span>
+                  <span id="bcvHistTooltipValue" class="text-slate-100 font-extrabold block text-xs mt-0.5 whitespace-nowrap">Bs --,--</span>
+                  <span id="bcvHistTooltipDailyVar" class="text-slate-500 text-[10px] font-semibold block mt-0.5 whitespace-nowrap">-- diario</span>
                 </div>
 
                 <!-- Estado del histórico -->
@@ -668,7 +676,7 @@
       
       <div class="text-center pb-4 mb-4 border-b border-white/5">
         <h3 class="text-xl font-bold tracking-tight text-slate-100 flex items-center justify-center gap-2">
-          Valo <span class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/25">v1.3.0</span>
+          Valo <span class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/25">v1.3.1</span>
         </h3>
         <p class="text-[11px] text-slate-400 mt-2 font-medium">Acerca de la Aplicación</p>
       </div>
@@ -683,12 +691,23 @@
       </h4>
 
       <div class="space-y-5 text-left max-h-[40vh] overflow-y-auto pr-2">
-        <!-- v1.3.0 -->
+        <!-- v1.3.1 -->
         <div class="border-l-2 border-emerald-400 pl-4 relative">
           <div class="absolute -left-[6px] top-1.5 w-3 h-3 rounded-full bg-slate-900 border-2 border-emerald-400"></div>
           <div class="flex items-center gap-2 mb-1">
-            <span class="font-bold text-slate-100 text-sm">v1.3.0</span>
+            <span class="font-bold text-slate-100 text-sm">v1.3.1</span>
             <span class="text-[9px] bg-emerald-500/15 text-emerald-400 px-1.5 py-0.5 rounded-full border border-emerald-500/30">Actual</span>
+          </div>
+          <p class="text-xs font-semibold text-emerald-400/90 mb-2">Porcentaje de Variación Diaria en Tendencia Histórica</p>
+          <ul class="list-disc list-inside space-y-1 text-xs text-slate-400 leading-relaxed">
+            <li><strong>Indicador de Porcentaje Diarios en Gráfica:</strong> Muestra la diferencia porcentual diaria (ej. ▲ +0.50% o ▼ -0.70%) en vivo dentro del tooltip interactivo de la gráfica histórica.</li>
+          </ul>
+        </div>
+        <!-- v1.3.0 -->
+        <div class="border-l-2 border-slate-700 pl-4 relative">
+          <div class="absolute -left-[6px] top-1.5 w-3 h-3 rounded-full bg-slate-900 border-2 border-slate-700"></div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="font-bold text-slate-100 text-sm">v1.3.0</span>
           </div>
           <p class="text-xs font-semibold text-emerald-400/90 mb-2">Selector de Tamaños, Botón Flotante y Mejoras de Modo Claro</p>
           <ul class="list-disc list-inside space-y-1 text-xs text-slate-400 leading-relaxed">
@@ -1627,12 +1646,14 @@
       const x = clientX - rect.left;
       
       let closestPt = points[0];
+      let closestIdx = 0;
       let closestDist = Math.abs(x - points[0].x);
       for (let i = 1; i < points.length; i++) {
         const dist = Math.abs(x - points[i].x);
         if (dist < closestDist) {
           closestDist = dist;
           closestPt = points[i];
+          closestIdx = i;
         }
       }
 
@@ -1648,12 +1669,36 @@
           hoverCircle.classList.remove('hidden');
         }
         if (tooltip) {
-          tooltipDate.textContent = closestPt.fecha.toLocaleDateString('es-VE', { day: '2-digit', month: 'long', year: 'numeric' });
+          const d = closestPt.fecha;
+          const meses = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+          tooltipDate.textContent = `${d.getDate()} ${meses[d.getMonth()]}, '${String(d.getFullYear()).slice(-2)}`;
           tooltipValue.textContent = 'Bs ' + closestPt.valor.toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 4 });
           
-          const percent = (closestPt.x / width) * 100;
-          tooltip.style.left = `${percent}%`;
+          const tooltipDailyVar = $('bcvHistTooltipDailyVar');
+          if (tooltipDailyVar) {
+            if (closestIdx > 0) {
+              const prevVal = points[closestIdx - 1].valor;
+              const diff = closestPt.valor - prevVal;
+              const pct = (diff / prevVal) * 100;
+              const sign = pct >= 0 ? '▲ +' : '▼ ';
+              tooltipDailyVar.textContent = `${sign}${pct.toFixed(2)}% diario`;
+              if (pct >= 0) {
+                tooltipDailyVar.className = "text-emerald-400 font-bold block text-[10px] mt-0.5 whitespace-nowrap";
+              } else {
+                tooltipDailyVar.className = "text-red-400 font-bold block text-[10px] mt-0.5 whitespace-nowrap";
+              }
+            } else {
+              tooltipDailyVar.textContent = "-- diario";
+              tooltipDailyVar.className = "text-slate-500 font-semibold block text-[10px] mt-0.5 whitespace-nowrap";
+            }
+          }
+
           tooltip.classList.remove('hidden');
+          const tooltipWidth = tooltip.offsetWidth || 120;
+          const halfW = tooltipWidth / 2;
+          const containerWidth = container.clientWidth || width;
+          const clampedX = Math.max(halfW + 4, Math.min(closestPt.x, containerWidth - halfW - 4));
+          tooltip.style.left = `${clampedX}px`;
         }
       }
     };
