@@ -1,4 +1,4 @@
-const CACHE_NAME = 'valo-v20';
+const CACHE_NAME = 'valo-v21';
 const ASSETS = [
   './',
   'index.html',
@@ -37,15 +37,15 @@ self.addEventListener('activate', (e) => {
 });
 
 self.addEventListener('fetch', (e) => {
-  const isNavigation = e.request.mode === 'navigate' || 
-                       e.request.url.endsWith('index.html') || 
-                       e.request.url.endsWith('/valo/') ||
-                       e.request.url.endsWith('/valo') ||
-                       e.request.url === self.location.origin + '/';
+  const isNavigation = e.request.mode === 'navigate' ||
+    e.request.url.endsWith('index.html') ||
+    e.request.url.endsWith('/valo/') ||
+    e.request.url.endsWith('/valo') ||
+    e.request.url === self.location.origin + '/';
 
   const isApiRequest = e.request.url.includes('dolarapi.com') ||
-                       e.request.url.includes('criptoya.com') ||
-                       e.request.url.includes('yadio.io');
+    e.request.url.includes('criptoya.com') ||
+    e.request.url.includes('yadio.io');
 
   if (isNavigation || isApiRequest) {
     // Estrategia Network-First: Intentar red primero para obtener siempre el último despliegue o tasas reales al día.
