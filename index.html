@@ -71,47 +71,37 @@
     }
 
     html.light .glass-card {
-      background-color: #e2e8f0 !important;
-      /* slate-200 */
-      border: 1px solid #94a3b8 !important;
-      /* border-slate-400 */
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.06) !important;
+      background-color: #ffffff !important;
+      border: 1px solid #cbd5e1 !important;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05) !important;
     }
 
     .glass-input {
       background-color: #020617 !important;
-      /* bg-slate-950 */
       border: 1px solid #1e293b !important;
-      /* border-slate-800 */
       color: #f8fafc !important;
     }
 
     html.light .glass-input {
-      background-color: #cbd5e1 !important;
-      /* bg-slate-300 */
-      border: 1px solid #94a3b8 !important;
-      /* border-slate-400 */
+      background-color: #f8fafc !important;
+      border: 1px solid #cbd5e1 !important;
       color: #0f172a !important;
+    }
+
+    .glass-segment {
+      background: #020617;
+      border: 1px solid #1e293b;
+    }
+
+    html.light .glass-segment {
+      background: #f1f5f9 !important;
+      border: 1px solid #cbd5e1 !important;
     }
 
     .glass-input:focus {
       outline: none !important;
       border-color: rgb(var(--accent-r), var(--accent-g), var(--accent-b)) !important;
       box-shadow: 0 0 0 2px rgba(var(--accent-r), var(--accent-g), var(--accent-b), 0.25) !important;
-    }
-
-    .glass-segment {
-      background: #020617;
-      /* bg-slate-950 */
-      border: 1px solid #1e293b;
-      /* border-slate-800 */
-    }
-
-    html.light .glass-segment {
-      background: #cbd5e1;
-      /* bg-slate-300 */
-      border: 1px solid #94a3b8;
-      /* border-slate-400 */
     }
 
     /* Botones redondeados del header en modo claro */
@@ -192,37 +182,40 @@
 
     /* Mapeo de Clases Clásicas en Modo Claro */
     html.light body,
+    html.light body,
     html.light .bg-slate-950 {
-      background-color: #dde3ed !important;
+      background-color: #f1f5f9 !important;
     }
 
     html.light .bg-slate-950\/50 {
-      background-color: #c8d1df !important;
+      background-color: #f8fafc !important;
     }
 
     html.light .bg-slate-950\/90 {
-      background-color: rgba(226, 232, 240, 0.95) !important;
+      background-color: #ffffff !important;
+      border-color: #e2e8f0 !important;
     }
 
     html.light .bg-slate-950\/95 {
-      background-color: rgba(226, 232, 240, 0.98) !important;
+      background-color: rgba(255, 255, 255, 0.98) !important;
     }
 
     html.light .bg-slate-900 {
-      background-color: #e2e8f0 !important;
+      background-color: #f8fafc !important;
+      border-color: #e2e8f0 !important;
     }
 
     html.light .bg-slate-900\/90 {
-      background-color: rgba(255, 255, 255, 0.90) !important;
+      background-color: rgba(255, 255, 255, 0.95) !important;
     }
 
     html.light .bg-slate-900\/95 {
-      background-color: rgba(241, 245, 249, 0.98) !important;
+      background-color: rgba(255, 255, 255, 0.98) !important;
     }
 
     html.light .bg-slate-800,
     html.light .bg-slate-800\/80 {
-      background-color: #cbd5e1 !important;
+      background-color: #f1f5f9 !important;
     }
 
     html.light .text-slate-100 {
@@ -251,11 +244,11 @@
 
     html.light .border-slate-800\/90,
     html.light .border-slate-800\/80 {
-      border-color: #94a3b8 !important;
+      border-color: #cbd5e1 !important;
     }
 
     html.light .border-slate-700 {
-      border-color: #94a3b8 !important;
+      border-color: #cbd5e1 !important;
     }
 
     html.light .border-white\/5 {
@@ -263,13 +256,13 @@
     }
 
     html.light .border-white\/10 {
-      border-color: #94a3b8 !important;
+      border-color: #cbd5e1 !important;
     }
 
     /* Botón flotante de refresco en modo claro */
     html.light #refreshRatesBtn {
-      background-color: #cbd5e1 !important;
-      border-color: #94a3b8 !important;
+      background-color: #ffffff !important;
+      border-color: #cbd5e1 !important;
       color: #0f172a !important;
     }
 
@@ -354,6 +347,23 @@
     html.light .bcv-chart-axis-text {
       fill: #475569;
     }
+
+    /* Corrección del Toggle Row de Nueva Tasa y Contraste Amber en Modo Claro */
+    html.light #nuevaTasaToggleRow .text-slate-400 {
+      color: #475569 !important;
+    }
+    html.light #nuevaTasaToggleRow .hover\:text-slate-200:hover {
+      color: #0f172a !important;
+    }
+    html.light .text-amber-300 {
+      color: #b45309 !important;
+    }
+    html.light .bg-amber-500\/20 {
+      background-color: rgba(245, 158, 11, 0.25) !important;
+    }
+    html.light .border-amber-500\/40 {
+      border-color: rgba(217, 119, 6, 0.50) !important;
+    }
   </style>
 </head>
 
@@ -363,7 +373,7 @@
       document.documentElement.classList.add('light');
       const themeMeta = document.querySelector('meta[name="theme-color"]');
       if (themeMeta) {
-        themeMeta.setAttribute('content', '#dde3ed');
+        themeMeta.setAttribute('content', '#f1f5f9');
       }
     }
 
@@ -402,7 +412,7 @@
           class="text-sm sm:text-base md:text-lg font-extrabold tracking-tight cursor-pointer hover:text-blue-300 transition-colors inline-flex items-center justify-center gap-1 py-1 text-slate-100 truncate max-w-full">
           Valo
           <span
-            class="text-[9px] px-1.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/25">v1.4.2</span>
+            class="text-[9px] px-1.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/25">v1.4.3</span>
         </h1>
       </div>
       <div class="flex items-center gap-1.5 shrink-0">
@@ -656,7 +666,7 @@
             </div>
 
             <!-- Selector Opcional de Tasa Activa (Solo visible cuando hay tasa nueva) -->
-            <div id="nuevaTasaToggleRow" class="hidden mb-4 p-1.5 bg-slate-950/70 border border-slate-800/80 rounded-2xl flex gap-1.5 select-none">
+            <div id="nuevaTasaToggleRow" class="hidden mb-4 p-1.5 glass-segment rounded-2xl flex gap-1.5 select-none">
               <button id="toggleTasaHoyBtn" type="button" class="flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1 bg-blue-500/20 text-blue-400 border border-blue-400/40 shadow-sm active:scale-95">
                 <span>Hoy</span>
                 <span id="toggleTasaHoyMonto" class="text-[10px] font-normal opacity-85"></span>
@@ -953,7 +963,7 @@
       <div class="text-center pb-4 mb-4 border-b border-white/5">
         <h3 class="text-xl font-bold tracking-tight text-slate-100 flex items-center justify-center gap-2">
           Valo <span
-            class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/25">v1.4.2</span>
+            class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/25">v1.4.3</span>
         </h3>
         <p class="text-[11px] text-slate-400 mt-2 font-medium">Acerca de la Aplicación</p>
         <div class="mt-2 text-[10px] text-slate-500 flex flex-col items-center gap-1 select-none">
@@ -976,15 +986,29 @@
       </h4>
 
       <div class="space-y-5 text-left max-h-[40vh] overflow-y-auto pr-2">
-        <!-- v1.4.2 -->
+        <!-- v1.4.3 -->
         <div class="border-l-2 border-emerald-400 pl-4 relative">
           <div class="absolute -left-[6px] top-1.5 w-3 h-3 rounded-full bg-slate-900 border-2 border-emerald-400"></div>
           <div class="flex items-center gap-2 mb-1">
-            <span class="font-bold text-slate-100 text-sm">v1.4.2</span>
+            <span class="font-bold text-slate-100 text-sm">v1.4.3</span>
             <span
               class="text-[9px] bg-emerald-500/15 text-emerald-400 px-1.5 py-0.5 rounded-full border border-emerald-500/30">Actual</span>
           </div>
-          <p class="text-xs font-semibold text-emerald-400/90 mb-2">Corrección de Tasas BCV e Integración de DolarVzla API</p>
+          <p class="text-xs font-semibold text-emerald-400/90 mb-2">Rediseño de Modo Claro y Correcciones de Interfaz</p>
+          <ul class="list-disc list-inside space-y-1 text-xs text-slate-400 leading-relaxed">
+            <li><strong>Estilo de Modo Claro Premium:</strong> Fondo general optimizado a un gris/azul claro limpio (`#f1f5f9`) y tarjetas elevadas a blanco puro (`#ffffff`) con sombras sutiles y bordes pulidos.</li>
+            <li><strong>Resalte de Bordes y Módulos:</strong> Aumentado el contraste de los bordes divisorios de las tarjetas y separadores internos (`#cbd5e1`) para mayor definición y relieve visual.</li>
+            <li><strong>Corrección del Personalizador:</strong> Solucionado el problema donde los botones de acento no seleccionados tenían un fondo gris oscuro inconsistente. Ahora adaptan de forma limpia su fondo y borde (`bg-white/5`, `border-white/10`).</li>
+            <li><strong>Selector de Tasa Activa:</strong> Fondo del selector (`#nuevaTasaToggleRow`) adaptado a `glass-segment` para integrarse fluidamente, y corregida la legibilidad del texto inactivo y del color ámbar (`text-amber-300`).</li>
+          </ul>
+        </div>
+        <!-- v1.4.2 -->
+        <div class="border-l-2 border-slate-700 pl-4 relative">
+          <div class="absolute -left-[6px] top-1.5 w-3 h-3 rounded-full bg-slate-900 border-2 border-slate-700"></div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="font-bold text-slate-100 text-sm">v1.4.2</span>
+          </div>
+          <p class="text-xs font-semibold text-slate-400 mb-2">Corrección de Tasas BCV e Integración de DolarVzla API</p>
           <ul class="list-disc list-inside space-y-1 text-xs text-slate-400 leading-relaxed">
             <li><strong>Detección de Nueva Tasa con DolarVzla:</strong> Migración de la consulta BCV principal a la API de DolarVzla (`rates.dolarvzla.com`), permitiendo obtener de forma directa tanto la tasa vigente del día (`previous`) como la del próximo día hábil (`current`).</li>
             <li><strong>Sistema de Contingencia (Fallback):</strong> Se conserva DolarAPI de manera transparente como respaldo automático en caso de caídas de red de la API principal.</li>
@@ -1912,9 +1936,9 @@
     function updateAccentBtnUI(activeColor) {
       accentBtns.forEach(btn => {
         if (btn.dataset.color === activeColor) {
-          btn.className = "accent-btn flex flex-col items-center gap-1 p-2 rounded-xl bg-blue-500/10 border border-blue-400 transition";
+          btn.className = "accent-btn flex flex-col items-center gap-1.5 p-2.5 rounded-xl bg-blue-500/10 border-2 border-blue-400 transition-all duration-200";
         } else {
-          btn.className = "accent-btn flex flex-col items-center gap-1 p-2 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-700 transition";
+          btn.className = "accent-btn flex flex-col items-center gap-1.5 p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border-2 border-white/10 transition-all duration-200";
         }
       });
     }
@@ -2018,7 +2042,7 @@
       // Sincronizar theme-color del móvil
       const themeMeta = document.querySelector('meta[name="theme-color"]');
       if (themeMeta) {
-        themeMeta.setAttribute('content', isLight ? '#dde3ed' : '#0f172a');
+        themeMeta.setAttribute('content', isLight ? '#f1f5f9' : '#0f172a');
       }
 
       // Hack de Reflow para repintar en móviles
