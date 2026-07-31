@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Versión-v1.4.1-blue?style=for-the-badge&logo=semver" alt="Version">
+  <img src="https://img.shields.io/badge/Versión-v1.4.2-blue?style=for-the-badge&logo=semver" alt="Version">
   <img src="https://img.shields.io/badge/PWA-Soportado-brightgreen?style=for-the-badge&logo=progressive-web-apps" alt="PWA">
   <img src="https://img.shields.io/badge/Diseño-Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css" alt="Tailwind CSS">
 </p>
@@ -36,7 +36,8 @@
 *   **Frontend**: HTML5, CSS3 (Vanilla + Tailwind CSS v3 vía CDN).
 *   **Lógica**: JavaScript (ES6 Modules) sin frameworks pesados para un rendimiento óptimo.
 *   **APIs Externas**:
-    *   [DolarAPI](https://dolarapi.com/) para cotizaciones oficiales e históricos de tiempo.
+    *   [DolarVzla](https://rates.dolarvzla.com/) para cotizaciones oficiales actuales y emitidas del BCV.
+    *   [DolarAPI](https://dolarapi.com/) para históricos y como fallback.
     *   [CriptoYa](https://criptoya.com/) y [Yadio](https://yadio.io/) (como fallback) para tasas promedio de Binance P2P.
 *   **Servidor**: Express JS (servidor local mínimo de contingencia para Single Page Apps).
 
