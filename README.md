@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Versión-v1.4.4-blue?style=for-the-badge&logo=semver" alt="Version">
+  <img src="https://img.shields.io/badge/Versión-v1.5.0-blue?style=for-the-badge&logo=semver" alt="Version">
   <img src="https://img.shields.io/badge/PWA-Soportado-brightgreen?style=for-the-badge&logo=progressive-web-apps" alt="PWA">
   <img src="https://img.shields.io/badge/Diseño-Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css" alt="Tailwind CSS">
 </p>
@@ -18,10 +18,11 @@
 *   **🧪 Modo de Prueba por URL**: Soporte para comprobar el banner e interactividad de la tasa nueva al instante agregando el parámetro `?test_tasa_nueva=true` o `?test_tasa=NUMERO` a la URL local o de red que utilices para abrir la app.
 *   **ℹ️ Claridad de Referencias Históricas en USDT**: Indicadores y notas explícitas aclarando que las búsquedas históricas en la pestaña de USDT utilizan el Dólar Paralelo como referencia de mercado ante la ausencia de registro diario en la API de Binance P2P.
 *   **🔄 Conversión Bidireccional en Vivo**: Conversiones instantáneas de *Divisa ⇄ Bolívares* mostrando resultados en formato estándar (`USD`, `EUR`, `USDT`) con cuatro opciones segmentadas:
-    *   **🏛️ Dólar Oficial (BCV)**
-    *   **🇪🇺 Euro Oficial (BCV)**
+    *   **🏛️ Dólar Oficial (BCV)** (con spread comparativo vs USDT P2P).
+    *   **🇪🇺 Euro Oficial (BCV)** (con spread comparativo vs USDT P2P).
     *   **🪙 USDT (Binance P2P)** (con cálculo automático de la brecha/spread cambiario respecto al BCV).
     *   **✍️ Tasa Propia** (personalizada y guardada persistentemente en `localStorage`).
+*   **📊 Diferenciales Cambiarios Duales en el Panel de Tasas**: Indicadores de spread en tiempo real para **USD BCV vs USDT P2P** y el nuevo **EUR BCV vs USDT P2P**, permitiendo comparar ambas tasas oficiales contra el mercado P2P al mismo tiempo.
 *   **📐 Selector de Tamaño de Interfaz**: Permite cambiar la escala de la aplicación entre 3 tamaños (*Compacto*, *Normal* y *Amplio*) adaptándose perfectamente a cualquier preferencia de pantalla.
 *   **📱 Botón de Refrescar Flotante en Móvil**: Botón de acción flotante (FAB) posicionado de forma fija en la esquina inferior derecha en dispositivos móviles para un acceso rápido y sin esfuerzo al desplazarse por la página.
 *   **📊 Gráficas de Tendencia Interactivas**: Widget colapsable con curvas SVG interactivas y táctiles que muestran el historial de tasas para rangos de `10d`, `1m`, `3m`, `6m` y `1a` (incluyendo la variación porcentual diaria en el tooltip táctil).
