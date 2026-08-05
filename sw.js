@@ -1,4 +1,4 @@
-const CACHE_NAME = 'valo-v27';
+const CACHE_NAME = 'valo-v29';
 const ASSETS = [
   './',
   'index.html',
