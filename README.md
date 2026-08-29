@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Versión-v1.5.1-blue?style=for-the-badge&logo=semver" alt="Version">
+  <img src="https://img.shields.io/badge/Versión-v1.6.0-blue?style=for-the-badge&logo=semver" alt="Version">
   <img src="https://img.shields.io/badge/PWA-Soportado-brightgreen?style=for-the-badge&logo=progressive-web-apps" alt="PWA">
   <img src="https://img.shields.io/badge/Diseño-Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css" alt="Tailwind CSS">
 </p>
@@ -14,8 +14,10 @@
 
 ## ✨ Características Principales
 
-*   **🏛️ Tasa Emitida Opcional (Próximo Día / Lunes)**: Notificación interactiva cuando el BCV emite de forma anticipada la tasa oficial del próximo día hábil o fin de semana, permitiendo alternar de forma opcional (`[ Hoy ]` o `[ ✨ Nueva ]`) sin forzar de golpe el cambio en la calculadora.
-*   **🧪 Modo de Prueba por URL**: Soporte para comprobar el banner e interactividad de la tasa nueva al instante agregando el parámetro `?test_tasa_nueva=true` o `?test_tasa=NUMERO` a la URL local o de red que utilices para abrir la app.
+*   **🔢 Calculadora Aritmética Integrada (+, −, ×, ÷)**: Posibilidad de escribir y resolver operaciones matemáticas directamente en los campos de entrada de Divisa y Bolívares con barra táctil de operadores rápidos especialmente diseñada para su uso en smartphones.
+*   **🏛️ Sincronización en Vivo de Tasa Emitida (Próximo Día / Lunes)**: Aviso informativo y selector unificados entre el cuadro principal y los selectores; al seleccionar `[ ✨ Nueva ]`, el cuadro principal de tasas (Hero Rates) y los diferenciales se actualizan de forma instantánea.
+*   **📶 Resiliencia y Diseño 100% Offline-First**: Funciona de forma robusta sin conexión a internet manteniendo el diseño intacto, sin textos planos ni modales desbordados gracias a sus estilos y utilitarios integrados.
+*   **🧪 Modo de Prueba por URL**: Soporte para comprobar el aviso e interactividad de la tasa nueva al instante agregando el parámetro `?test_tasa_nueva=true` o `?test_tasa=NUMERO` a la URL local o de red que utilices para abrir la app.
 *   **ℹ️ Claridad de Referencias Históricas en USDT**: Indicadores y notas explícitas aclarando que las búsquedas históricas en la pestaña de USDT utilizan el Dólar Paralelo como referencia de mercado ante la ausencia de registro diario en la API de Binance P2P.
 *   **🔄 Conversión Bidireccional en Vivo**: Conversiones instantáneas de *Divisa ⇄ Bolívares* mostrando resultados en formato estándar (`USD`, `EUR`, `USDT`) con cuatro opciones segmentadas:
     *   **🏛️ Dólar Oficial (BCV)** (con spread comparativo vs USDT P2P).
