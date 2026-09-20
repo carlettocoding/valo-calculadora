@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Valo - Conversor de Divisas</title>
+  <title>Valo v1.7.0 - Conversor de Divisas</title>
 
   <!-- Icono y PWA -->
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -14,6 +14,9 @@
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#0f172a">
+
+  <!-- Local Standalone Stylesheet (100% Offline Resilience) -->
+  <link rel="stylesheet" href="styles.css">
 
   <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,7 +32,7 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Outfit', 'sans-serif'],
+            sans: ['Outfit', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
           },
           colors: {
             'dark-bg': '#0f172a',
@@ -44,6 +47,25 @@
   </script>
 
   <style>
+    body {
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+      background-color: #020617;
+      color: #f8fafc;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html.light body {
+      background-color: #f1f5f9 !important;
+      color: #0f172a !important;
+    }
+
+    /* Fallback de contraste para modo oscuro ante falta de CDN */
+    .dark .text-slate-100 { color: #f8fafc !important; }
+    .dark .text-slate-200 { color: #e2e8f0 !important; }
+    .dark .text-slate-300 { color: #cbd5e1 !important; }
+    .dark .text-slate-400 { color: #94a3b8 !important; }
+    .dark .text-slate-500 { color: #64748b !important; }
+
     :root {
       --accent-r: 96;
       --accent-g: 165;
@@ -473,10 +495,14 @@
       <div
         class="flex-1 text-center min-w-0 px-1 md:absolute md:left-1/2 md:-translate-x-1/2 md:top-1/2 md:-translate-y-1/2">
         <h1 id="appTitleBtn"
-          class="text-sm sm:text-base md:text-lg font-extrabold tracking-tight cursor-pointer hover:text-blue-300 transition-colors inline-flex items-center justify-center gap-1 py-1 text-slate-100 truncate max-w-full">
+          class="text-sm sm:text-base md:text-lg font-extrabold tracking-tight cursor-pointer hover:text-blue-300 transition-colors inline-flex items-center justify-center gap-1.5 py-1 text-slate-100 truncate max-w-full">
           Valo
           <span
-            class="text-[9px] px-1.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/25">v1.6.0</span>
+            class="text-[9px] px-1.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/25">v1.7.0</span>
+          <span id="offlineTestBadge"
+            class="hidden text-[9px] px-1.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-bold border border-amber-500/40 items-center gap-1 shadow-sm">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span>⚡ Offline
+          </span>
         </h1>
       </div>
       <div class="flex items-center gap-1.5 shrink-0">
@@ -953,6 +979,43 @@
             </div>
           </section>
 
+          <!-- Historial de Cálculos de la Calculadora -->
+          <section id="sectionHistorialCalculos"
+            class="glass-card rounded-2xl shadow-lg overflow-hidden border border-white/5 bg-white/5">
+            <!-- Botón de Cabecera Colapsable -->
+            <button id="toggleCalcHistoryBtn" type="button"
+              class="w-full flex items-center justify-between p-4 text-left hover:bg-white/5 transition select-none">
+              <div class="flex items-center gap-2.5">
+                <span class="text-blue-400 text-sm">🕒</span>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <p class="text-xs font-semibold text-slate-300">Historial de Cálculos</p>
+                    <span id="calcHistoryCountBadge" class="text-[9px] px-1.5 py-0.5 rounded-full bg-blue-500/20 text-blue-400 font-bold border border-blue-400/30">0</span>
+                  </div>
+                  <p class="text-[10px] text-slate-500 mt-0.5">Registro de operaciones y conversiones</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <span id="calcHistoryChevron" class="text-xs text-slate-500 transition-transform duration-300">▼</span>
+              </div>
+            </button>
+
+            <!-- Contenido del Historial -->
+            <div id="calcHistoryContent" class="hidden border-t border-white/5 p-4 space-y-3">
+              <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                <span class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Cálculos recientes</span>
+                <button type="button" id="clearCalcHistoryBtn" class="text-[11px] text-red-400 hover:text-red-300 flex items-center gap-1 transition px-2 py-0.5 rounded hover:bg-red-500/10 active:scale-95">
+                  <i class="fa-solid fa-trash-can text-[10px]"></i> <span>Limpiar</span>
+                </button>
+              </div>
+              
+              <!-- Lista de Cálculos -->
+              <div id="calcHistoryList" class="space-y-2 max-h-64 overflow-y-auto pr-1">
+                <!-- Se inyecta dinámicamente -->
+              </div>
+            </div>
+          </section>
+
           <!-- Histórico y Gráfica BCV -->
           <section id="sectionGraficaTendencia"
             class="glass-card rounded-2xl shadow-lg overflow-hidden border-t border-white/5 bg-white/5">
@@ -1080,7 +1143,7 @@
       <div class="text-center pb-4 mb-4 border-b border-white/5">
         <h3 class="text-xl font-bold tracking-tight text-slate-100 flex items-center justify-center gap-2">
           Valo <span
-            class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/25">v1.6.0</span>
+            class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/25">v1.7.0</span>
         </h3>
         <p class="text-[11px] text-slate-400 mt-2 font-medium">Acerca de la Aplicación</p>
         <div class="mt-2 text-[10px] text-slate-500 flex flex-col items-center gap-1.5 select-none">
@@ -1106,15 +1169,31 @@
       </h4>
 
       <div class="space-y-5 text-left max-h-[40vh] overflow-y-auto pr-2">
-        <!-- v1.6.0 -->
+        <!-- v1.7.0 (Preliminar) -->
         <div class="border-l-2 border-emerald-400 pl-4 relative">
           <div class="absolute -left-[6px] top-1.5 w-3 h-3 rounded-full bg-slate-900 border-2 border-emerald-400"></div>
           <div class="flex items-center gap-2 mb-1">
-            <span class="font-bold text-slate-100 text-sm">v1.6.0</span>
+            <span class="font-bold text-slate-100 text-sm">v1.7.0</span>
             <span
               class="text-[9px] bg-emerald-500/15 text-emerald-400 px-1.5 py-0.5 rounded-full border border-emerald-500/30">Actual</span>
           </div>
-          <p class="text-xs font-semibold text-emerald-400/90 mb-2">Calculadora Aritmética, Sincronización de Tasa Emitida y Resiliencia Offline</p>
+          <p class="text-xs font-semibold text-emerald-400/90 mb-2">Historial de Cálculos, Copiado Bancario a 2 Decimales y Blindaje Offline</p>
+          <ul class="list-disc list-inside space-y-1 text-xs text-slate-400 leading-relaxed">
+            <li><strong>Historial de Cálculos Integrado:</strong> Módulo persistente con registro cronológico detallado de conversiones (fecha/hora, tasa, moneda y montos calculados), con acciones directas para reutilizar valores en la calculadora o copiar importes listos para bancos.</li>
+            <li><strong>Copiado Bancario a 2 Decimales:</strong> El botón "Copiar número" normaliza estrictamente a dos cifras decimales sin puntos de miles (ej. `162938,16`), evitando que las apps bancarias reciban un tercer decimal que altere el valor a transferir.</li>
+            <li><strong>Corrección en Tasa Propia y Números Redondos:</strong> Eliminación de bloqueos silenciosos al copiar cifras con `0,00` y reconocimiento pleno de etiquetas y símbolos para tasas personalizadas.</li>
+            <li><strong>Blindaje 100% Offline:</strong> Inclusión de hoja de estilos local autónoma (`styles.css`) precacheada en PWA, tipografía de sistema de alta legibilidad y contrastes oscuros reforzados para garantizar que la app nunca pierda diseño ni legibilidad al expirar la sesión o navegar sin internet.</li>
+            <li><strong>Modo de Prueba Offline por URL:</strong> Parámetro `?test_offline=true` para auditar la UX offline directamente desde el smartphone sin apagar el Wi-Fi.</li>
+            <li><strong>Actualización PWA:</strong> Incremento de la versión de Service Worker a `valo-v33`.</li>
+          </ul>
+        </div>
+        <!-- v1.6.0 -->
+        <div class="border-l-2 border-slate-700 pl-4 relative">
+          <div class="absolute -left-[6px] top-1.5 w-3 h-3 rounded-full bg-slate-900 border-2 border-slate-700"></div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="font-bold text-slate-100 text-sm">v1.6.0</span>
+          </div>
+          <p class="text-xs font-semibold text-slate-400 mb-2">Calculadora Aritmética, Sincronización de Tasa Emitida y Resiliencia Offline</p>
           <ul class="list-disc list-inside space-y-1 text-xs text-slate-400 leading-relaxed">
             <li><strong>Calculadora Aritmética Integrada (+, −, ×, ÷):</strong> Permite calcular sumas, restas, multiplicaciones y divisiones en tiempo real directamente en los campos de entrada de Divisa y Bolívares, con barra táctil de operadores rápidos especialmente diseñada para smartphones.</li>
             <li><strong>Sincronización en Vivo de Tasa Emitida:</strong> Reubicación del aviso informativo y selector de tasa en el espacio ubicado entre el cuadro de tasas y los selectores; al pulsar en la tasa nueva, el cuadro principal (Dólar BCV y Euro BCV) y los diferenciales se actualizan de forma instantánea.</li>
@@ -1939,6 +2018,7 @@
         targetInput.value = (targetInput === convInputBs) ? res.toFixed(2).replace('.', ',') : res.toFixed(2);
         const eventName = (targetInput === convInputBs) ? 'BS' : 'DIVISA';
         calcularConversor(eventName);
+        registrarEnHistorial('CALC_EVAL');
       }
       targetInput.focus();
     });
@@ -1960,6 +2040,7 @@
           if (res > 0) {
             inp.value = (inp === convInputBs) ? res.toFixed(2).replace('.', ',') : res.toFixed(2);
             calcularConversor(inp === convInputBs ? 'BS' : 'DIVISA');
+            registrarEnHistorial('CALC_ENTER');
           }
         }
       });
@@ -2039,6 +2120,35 @@
       });
     });
 
+    // Helper universal para copiar al portapapeles con fallback robusto para móviles
+    async function copiarAlPortapapeles(texto) {
+      if (navigator.clipboard && window.isSecureContext) {
+        try {
+          await navigator.clipboard.writeText(texto);
+          return true;
+        } catch (err) {
+          console.warn('Clipboard API directa falló, recurriendo a execCommand fallback', err);
+        }
+      }
+      try {
+        const textArea = document.createElement('textarea');
+        textArea.value = texto;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        textArea.style.top = '-999999px';
+        textArea.setAttribute('readonly', '');
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        const exitoso = document.execCommand('copy');
+        textArea.remove();
+        return exitoso;
+      } catch (err) {
+        console.error('Error al copiar al portapapeles:', err);
+        return false;
+      }
+    }
+
     // Botones de Borrar y Copiar
     $('clearConversorBtn').addEventListener('click', () => {
       convInputDivisa.value = '';
@@ -2049,37 +2159,294 @@
 
     $('convCopyBtn').addEventListener('click', () => {
       const resText = $('convResultadoFinal').textContent;
-      if (resText === 'Bs 0,00' || resText.includes('0,00')) return;
+      const divisaVal = convInputDivisa.value.trim() || '0';
+      const bsVal = convInputBs.value.trim() || '0';
+      const divisaNum = limpiarNumero(divisaVal);
+      const bsNum = limpiarNumero(bsVal);
+      if (divisaNum <= 0 && bsNum <= 0) return;
 
-      const simbolo = convActiveOption === 'DOLAR' ? '$' : (convActiveOption === 'EURO' ? '€' : '₮');
-      const divisaVal = convInputDivisa.value || '0';
-      const tasaVal = fmtBs(getTasaConvertidor());
-      const tipoTasa = convActiveOption === 'DOLAR' ? 'Dólar BCV' : (convActiveOption === 'EURO' ? 'Euro BCV' : 'USDT P2P');
-      const textoCopiar = `Conversión: ${simbolo}${divisaVal}\nTasa aplicada: ${tasaVal} ${tipoTasa}\nTotal: ${resText}`;
+      const tasa = getTasaConvertidor();
+      let tipoTasa = 'Dólar BCV';
+      let simbolo = '$';
+      if (convActiveOption === 'EURO') {
+        tipoTasa = 'Euro BCV';
+        simbolo = '€';
+      } else if (convActiveOption === 'USDT') {
+        tipoTasa = 'USDT P2P';
+        simbolo = '₮';
+      } else if (convActiveOption === 'PROPIA') {
+        tipoTasa = 'Tasa Personalizada';
+        simbolo = '$';
+      }
 
-      navigator.clipboard.writeText(textoCopiar).then(() => {
-        const copyText = $('convCopyText');
-        const original = copyText.textContent;
-        copyText.textContent = '¡Copiado!';
-        setTimeout(() => { copyText.textContent = original; }, 1500);
+      const tasaFmt = tasa > 0 ? fmtBs(tasa) : 'N/A';
+      const textoCopiar = `Conversión: ${simbolo}${divisaVal}\nTasa aplicada: ${tasaFmt} (${tipoTasa})\nTotal: ${resText}`;
+
+      copiarAlPortapapeles(textoCopiar).then(ok => {
+        if (ok) {
+          const copyText = $('convCopyText');
+          const original = copyText.textContent;
+          copyText.textContent = '¡Copiado!';
+          setTimeout(() => { copyText.textContent = original; }, 1500);
+          registrarEnHistorial('COPIAR_DETALLE');
+        }
       });
     });
 
     $('convCopyNumBtn').addEventListener('click', () => {
-      const resText = $('convResultadoFinal').textContent;
-      if (resText === 'Bs 0,00' || resText.includes('0,00')) return;
+      // Extraer el monto numérico efectivo a pagar o resultante
+      let num = 0;
+      if (convInputBs.value.trim()) {
+        num = limpiarNumero(convInputBs.value);
+      } else if (convInputDivisa.value.trim()) {
+        const tasa = getTasaConvertidor();
+        const divisaNum = limpiarNumero(convInputDivisa.value);
+        if (divisaNum > 0 && tasa > 0) num = divisaNum * tasa;
+      }
 
-      // Extrae sólo los números y los separadores decimales/miles del resultado
-      // Remueve símbolos monetarios o textos como USD, Bs, € etc
-      const limpio = resText.replace(/[^\d,.]/g, '').trim();
+      if (num <= 0) {
+        // Fallback: intentar extraer numéricamente de convResultadoFinal
+        const resText = $('convResultadoFinal').textContent;
+        const parseado = parseFloat(resText.replace(/[^\d,]/g, '').replace(',', '.'));
+        if (!isNaN(parseado) && parseado > 0) num = parseado;
+      }
 
-      navigator.clipboard.writeText(limpio).then(() => {
-        const copyText = $('convCopyNumText');
-        const original = copyText.textContent;
-        copyText.textContent = '¡Copiado!';
-        setTimeout(() => { copyText.textContent = original; }, 1500);
+      if (!num || num <= 0) return;
+
+      // Formato Bancario VE estricto: 2 decimales con coma decimal y sin puntos de miles (ej. 162938,16)
+      // Esto previene que las apps bancarias reciban un 3er decimal que altere el valor por 10x
+      const limpioBanco = num.toFixed(2).replace('.', ',');
+
+      copiarAlPortapapeles(limpioBanco).then(ok => {
+        if (ok) {
+          const copyText = $('convCopyNumText');
+          const original = copyText.textContent;
+          copyText.textContent = '¡Copiado!';
+          setTimeout(() => { copyText.textContent = original; }, 1500);
+          registrarEnHistorial('COPIAR_NUM');
+        }
       });
     });
+
+    // ==========================================
+    // MÓDULO DE HISTORIAL DE CÁLCULOS
+    // ==========================================
+    const CALC_HISTORY_KEY = 'valo_calc_history_v1';
+
+    function obtenerHistorial() {
+      try {
+        const raw = localStorage.getItem(CALC_HISTORY_KEY);
+        return raw ? JSON.parse(raw) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function guardarHistorial(historial) {
+      try {
+        localStorage.setItem(CALC_HISTORY_KEY, JSON.stringify(historial.slice(0, 40)));
+      } catch (e) {
+        console.warn('Error al guardar historial:', e);
+      }
+    }
+
+    function registrarEnHistorial(origen = 'CALC') {
+      const divisaVal = convInputDivisa.value.trim();
+      const bsVal = convInputBs.value.trim();
+      const divisaNum = limpiarNumero(divisaVal);
+      const bsNum = limpiarNumero(bsVal);
+      const tasa = getTasaConvertidor();
+
+      if ((divisaNum <= 0 && bsNum <= 0) || tasa <= 0) return;
+
+      let tipoTasa = 'Dólar BCV';
+      let simbolo = '$';
+      if (convActiveOption === 'EURO') {
+        tipoTasa = 'Euro BCV';
+        simbolo = '€';
+      } else if (convActiveOption === 'USDT') {
+        tipoTasa = 'USDT P2P';
+        simbolo = '₮';
+      } else if (convActiveOption === 'PROPIA') {
+        tipoTasa = 'Tasa Personalizada';
+        simbolo = '$';
+      }
+
+      const bsTotal = bsNum > 0 ? bsNum : (divisaNum * tasa);
+      const divisaTotal = divisaNum > 0 ? divisaNum : (bsNum / tasa);
+      const montoLimpioBanco = bsTotal.toFixed(2).replace('.', ',');
+
+      const ahora = new Date();
+      const horas = ahora.getHours();
+      const minutos = ahora.getMinutes().toString().padStart(2, '0');
+      const ampm = horas >= 12 ? 'p. m.' : 'a. m.';
+      const horas12 = horas % 12 || 12;
+      const dia = ahora.getDate().toString().padStart(2, '0');
+      const mes = (ahora.getMonth() + 1).toString().padStart(2, '0');
+      const fechaFmt = `${dia}/${mes} ${horas12}:${minutos} ${ampm}`;
+
+      const nuevoItem = {
+        id: Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+        fecha: fechaFmt,
+        tipoTasa,
+        opcion: convActiveOption,
+        tasaFmt: fmtBs(tasa),
+        tasaNum: tasa,
+        divisaInput: divisaVal || divisaTotal.toFixed(2),
+        bsInput: bsVal || bsTotal.toFixed(2).replace('.', ','),
+        divisaSimbolo: simbolo,
+        divisaTotalFmt: `${divisaTotal.toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${getCurrencyCode(convActiveOption)}`,
+        bsTotalFmt: fmtBs(bsTotal, 2),
+        montoLimpioBanco: montoLimpioBanco,
+        timestamp: Date.now()
+      };
+
+      const historial = obtenerHistorial();
+      // Prevenir registros duplicados consecutivos idénticos
+      if (historial.length > 0) {
+        const u = historial[0];
+        if (u.divisaInput === nuevoItem.divisaInput && u.bsInput === nuevoItem.bsInput && u.opcion === nuevoItem.opcion) {
+          return;
+        }
+      }
+
+      historial.unshift(nuevoItem);
+      guardarHistorial(historial);
+      renderizarHistorial();
+    }
+
+    function renderizarHistorial() {
+      const listEl = $('calcHistoryList');
+      const countBadge = $('calcHistoryCountBadge');
+      if (!listEl) return;
+
+      const historial = obtenerHistorial();
+      if (countBadge) countBadge.textContent = historial.length.toString();
+
+      if (historial.length === 0) {
+        listEl.innerHTML = `
+          <div class="py-6 text-center text-slate-500 text-xs">
+            <span class="text-xl block mb-1">🕒</span>
+            <p class="font-medium text-slate-400">Sin cálculos registrados</p>
+            <p class="text-[11px] mt-0.5">Usa la calculadora (=) o copia un resultado para guardarlo aquí.</p>
+          </div>
+        `;
+        return;
+      }
+
+      listEl.innerHTML = historial.map(item => `
+        <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 text-xs flex flex-col gap-1.5 hover:border-slate-700/80 transition">
+          <div class="flex items-center justify-between text-[10px] text-slate-400">
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <span class="px-1.5 py-0.5 rounded bg-blue-500/15 text-blue-400 font-bold border border-blue-400/25">${item.tipoTasa}</span>
+              <span class="text-slate-500">${item.fecha}</span>
+            </div>
+            <span class="text-slate-400 font-mono text-[10px]">${item.tasaFmt}</span>
+          </div>
+
+          <div class="flex items-baseline justify-between gap-2 mt-0.5">
+            <div class="truncate text-slate-300 font-medium font-mono text-[11px]">
+              ${item.divisaSimbolo} ${item.divisaInput}
+            </div>
+            <div class="text-emerald-400 font-extrabold text-sm whitespace-nowrap text-right">
+              ${item.bsTotalFmt}
+            </div>
+          </div>
+
+          <div class="flex items-center justify-end gap-1.5 pt-1.5 border-t border-white/5">
+            <button type="button" class="btn-copy-history-bank px-2 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 hover:text-blue-400 text-[10px] font-bold transition flex items-center gap-1 active:scale-95" data-monto="${item.montoLimpioBanco}">
+              🔢 Copiar ${item.montoLimpioBanco}
+            </button>
+            <button type="button" class="btn-reload-history px-2 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 hover:text-emerald-400 text-[10px] font-bold transition flex items-center gap-1 active:scale-95" data-id="${item.id}">
+              ↩️ Cargar
+            </button>
+            <button type="button" class="btn-delete-history-item p-1 px-1.5 rounded-lg text-slate-500 hover:text-red-400 hover:bg-red-500/10 text-[10px] transition active:scale-95" data-id="${item.id}" title="Eliminar registro">
+              ✕
+            </button>
+          </div>
+        </div>
+      `).join('');
+
+      // Enlazar botones de cada elemento del historial
+      listEl.querySelectorAll('.btn-copy-history-bank').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const monto = btn.dataset.monto;
+          copiarAlPortapapeles(monto).then(ok => {
+            if (ok) {
+              const orig = btn.innerHTML;
+              btn.textContent = '¡Copiado!';
+              setTimeout(() => { btn.innerHTML = orig; }, 1400);
+            }
+          });
+        });
+      });
+
+      listEl.querySelectorAll('.btn-reload-history').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.dataset.id;
+          cargarItemHistorial(id);
+        });
+      });
+
+      listEl.querySelectorAll('.btn-delete-history-item').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.dataset.id;
+          eliminarItemHistorial(id);
+        });
+      });
+    }
+
+    function cargarItemHistorial(id) {
+      const historial = obtenerHistorial();
+      const item = historial.find(h => h.id === id);
+      if (!item) return;
+
+      // Cambiar a la pestaña correspondiente
+      convActiveOption = item.opcion || 'DOLAR';
+      resetTasaHistoricaConv();
+      updateConversorUI();
+
+      // Cargar montos
+      convInputDivisa.value = item.divisaInput || '';
+      convInputBs.value = item.bsInput || '';
+      calcularConversor('DIVISA');
+
+      // Scroll suave hacia los inputs
+      convInputDivisa.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      convInputDivisa.focus();
+    }
+
+    function eliminarItemHistorial(id) {
+      let historial = obtenerHistorial();
+      historial = historial.filter(h => h.id !== id);
+      guardarHistorial(historial);
+      renderizarHistorial();
+    }
+
+    function limpiarHistorial() {
+      if (confirm('¿Deseas vaciar todo el historial de cálculos?')) {
+        localStorage.removeItem(CALC_HISTORY_KEY);
+        renderizarHistorial();
+      }
+    }
+
+    // Toggle de apertura y limpieza del Historial
+    $('toggleCalcHistoryBtn')?.addEventListener('click', () => {
+      const content = $('calcHistoryContent');
+      const chevron = $('calcHistoryChevron');
+      if (!content) return;
+      const isHidden = content.classList.contains('hidden');
+      if (isHidden) {
+        content.classList.remove('hidden');
+        if (chevron) chevron.style.transform = 'rotate(180deg)';
+        renderizarHistorial();
+      } else {
+        content.classList.add('hidden');
+        if (chevron) chevron.style.transform = 'rotate(0deg)';
+      }
+    });
+
+    $('clearCalcHistoryBtn')?.addEventListener('click', limpiarHistorial);
 
     // ==========================================
     // SYNC DE TASAS EN TIEMPO REAL
@@ -2182,6 +2549,28 @@
 
     async function consultarTasasEnTiempoReal() {
       const updateEl = $('lastUpdateTime');
+      const urlParams = new URLSearchParams(window.location.search);
+      const isTestOffline = urlParams.get('test_offline') === 'true' || urlParams.get('offline') === 'true';
+
+      if (isTestOffline) {
+        const offlineBadge = $('offlineTestBadge');
+        if (offlineBadge) offlineBadge.classList.remove('hidden');
+
+        // Sembrar valores por defecto si aún no hay tasas en localStorage
+        if (!globalTasaBCV || globalTasaBCV <= 0) globalTasaBCV = 814.6908;
+        if (!globalTasaBcvEUR || globalTasaBcvEUR <= 0) globalTasaBcvEUR = 947.298;
+        if (!globalTasaUsdtP2P || globalTasaUsdtP2P <= 0) globalTasaUsdtP2P = 969.995;
+
+        setSyncStatusOffline(localStorage.getItem('ratesLastSuccessfulUpdate') || 'Guardado local');
+        const syncTitle = $('syncTitle');
+        if (syncTitle) syncTitle.textContent = '⚡ Modo Offline (Prueba)';
+        if (updateEl) updateEl.textContent = 'Simulación sin conexión activa';
+
+        mostrarToastRed('Modo de prueba Offline activo (Sin conexión)', '⚡', 3500);
+        renderTasasRapidasYConversor();
+        return;
+      }
+
       if (updateEl && navigator.onLine) updateEl.textContent = 'Sincronizando...';
 
       let exitosas = 0;
@@ -2195,7 +2584,6 @@
             const hoyStr = obtenerFechaVenezuela(new Date());
             const currentFechaStr = data.current.date;
 
-            const urlParams = new URLSearchParams(window.location.search);
             const isTestMode = urlParams.get('test_tasa_nueva') === 'true' || urlParams.has('test_tasa');
 
             if (isTestMode) {
@@ -3008,11 +3396,22 @@
       });
     }
 
-    const ultimaGuardadaInicial = localStorage.getItem('ratesLastSuccessfulUpdate');
-    if (navigator.onLine) {
-      if (ultimaGuardadaInicial) setSyncStatusOnline(ultimaGuardadaInicial);
+    renderizarHistorial();
+
+    const isTestOfflineInit = new URLSearchParams(window.location.search).get('test_offline') === 'true' || new URLSearchParams(window.location.search).get('offline') === 'true';
+    if (isTestOfflineInit) {
+      const offlineBadge = $('offlineTestBadge');
+      if (offlineBadge) offlineBadge.classList.remove('hidden');
+      setSyncStatusOffline(localStorage.getItem('ratesLastSuccessfulUpdate') || 'Guardado local');
+      const syncTitle = $('syncTitle');
+      if (syncTitle) syncTitle.textContent = '⚡ Modo Offline (Prueba)';
     } else {
-      setSyncStatusOffline(ultimaGuardadaInicial);
+      const ultimaGuardadaInicial = localStorage.getItem('ratesLastSuccessfulUpdate');
+      if (navigator.onLine) {
+        if (ultimaGuardadaInicial) setSyncStatusOnline(ultimaGuardadaInicial);
+      } else {
+        setSyncStatusOffline(ultimaGuardadaInicial);
+      }
     }
     renderNuevaTasaBannerUI();
     renderTasasRapidasYConversor();

@@ -1,7 +1,8 @@
-const CACHE_NAME = 'valo-v32';
+const CACHE_NAME = 'valo-v33';
 const ASSETS = [
   './',
   'index.html',
+  'styles.css',
   'manifest.json',
   'icon.png',
   'favicon.png'

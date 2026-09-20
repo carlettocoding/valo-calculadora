@@ -5,25 +5,27 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Versión-v1.6.0-blue?style=for-the-badge&logo=semver" alt="Version">
+  <img src="https://img.shields.io/badge/Versión-v1.7.0-blue?style=for-the-badge&logo=semver" alt="Version">
   <img src="https://img.shields.io/badge/PWA-Soportado-brightgreen?style=for-the-badge&logo=progressive-web-apps" alt="PWA">
-  <img src="https://img.shields.io/badge/Diseño-Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css" alt="Tailwind CSS">
+  <img src="https://img.shields.io/badge/Offline-100%25_Autónomo-success?style=for-the-badge" alt="Offline Ready">
 </p>
 
 ---
 
 ## ✨ Características Principales
 
+*   **🕒 Historial de Cálculos Integrado**: Sección desplegable que registra cronológicamente cada conversión efectuada (`localStorage`), detallando fecha/hora, divisa, tipo de tasa aplicada, monto de entrada y total resultante, con botones de un toque para copiar montos formateados a 2 decimales para bancos o recargar los valores en los campos de la calculadora.
+*   **🏦 Copiado Bancario Estricto a 2 Decimales**: El botón "Copiar número" normaliza estrictamente a dos cifras decimales con coma decimal y sin separadores de miles (ej. `162938,16`), evitando que se trasladen 3 o más decimales que multipliquen por 10 el importe en apps bancarias móviles (Pago Móvil / Transferencias).
+*   **✍️ Solución a Copiado en Tasa Personalizada y Montos Redondos**: Eliminación de bloqueos silenciosos al copiar cifras con `0,00` y reconocimiento pleno de etiquetas y símbolos para tasas personalizadas.
+*   **📶 Blindaje 100% Offline y Estilos Autónomos**: Hoja de estilos autónoma local (`styles.css`) precacheada en `sw.js` (`valo-v33`), tipografía de sistema de alta fidelidad y contrastes oscuros reforzados para erradicar la pérdida de diseño y textos ilegibles ante fallos de CDN o sesiones offline prolongadas.
+*   **⚡ Modo de Prueba Offline por URL (`?test_offline=true`)**: Parámetro especial para auditar y verificar el comportamiento y renderizado completamente offline de la app directamente desde el smartphone sin apagar el Wi-Fi.
 *   **🔢 Calculadora Aritmética Integrada (+, −, ×, ÷)**: Posibilidad de escribir y resolver operaciones matemáticas directamente en los campos de entrada de Divisa y Bolívares con barra táctil de operadores rápidos especialmente diseñada para su uso en smartphones.
 *   **🏛️ Sincronización en Vivo de Tasa Emitida (Próximo Día / Lunes)**: Aviso informativo y selector unificados entre el cuadro principal y los selectores; al seleccionar `[ ✨ Nueva ]`, el cuadro principal de tasas (Hero Rates) y los diferenciales se actualizan de forma instantánea.
-*   **📶 Resiliencia y Diseño 100% Offline-First**: Funciona de forma robusta sin conexión a internet manteniendo el diseño intacto, sin textos planos ni modales desbordados gracias a sus estilos y utilitarios integrados.
-*   **🧪 Modo de Prueba por URL**: Soporte para comprobar el aviso e interactividad de la tasa nueva al instante agregando el parámetro `?test_tasa_nueva=true` o `?test_tasa=NUMERO` a la URL local o de red que utilices para abrir la app.
-*   **ℹ️ Claridad de Referencias Históricas en USDT**: Indicadores y notas explícitas aclarando que las búsquedas históricas en la pestaña de USDT utilizan el Dólar Paralelo como referencia de mercado ante la ausencia de registro diario en la API de Binance P2P.
 *   **🔄 Conversión Bidireccional en Vivo**: Conversiones instantáneas de *Divisa ⇄ Bolívares* mostrando resultados en formato estándar (`USD`, `EUR`, `USDT`) con cuatro opciones segmentadas:
     *   **🏛️ Dólar Oficial (BCV)** (con spread comparativo vs USDT P2P).
     *   **🇪🇺 Euro Oficial (BCV)** (con spread comparativo vs USDT P2P).
     *   **🪙 USDT (Binance P2P)** (con cálculo automático de la brecha/spread cambiario respecto al BCV).
-    *   **✍️ Tasa Propia** (personalizada y guardada persistentemente en `localStorage`).
+    *   **✍️ Tasa Personalizada** (guardada persistentemente en `localStorage`).
 *   **📊 Diferenciales Cambiarios Duales en el Panel de Tasas**: Indicadores de spread en tiempo real para **USD BCV vs USDT P2P** y el nuevo **EUR BCV vs USDT P2P**, permitiendo comparar ambas tasas oficiales contra el mercado P2P al mismo tiempo.
 *   **📐 Selector de Tamaño de Interfaz**: Permite cambiar la escala de la aplicación entre 3 tamaños (*Compacto*, *Normal* y *Amplio*) adaptándose perfectamente a cualquier preferencia de pantalla.
 *   **📱 Botón de Refrescar Flotante en Móvil**: Botón de acción flotante (FAB) posicionado de forma fija en la esquina inferior derecha en dispositivos móviles para un acceso rápido y sin esfuerzo al desplazarse por la página.
