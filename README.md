@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Versión-v1.7.0-blue?style=for-the-badge&logo=semver" alt="Version">
+  <img src="https://img.shields.io/badge/Versión-v1.8.0-blue?style=for-the-badge&logo=semver" alt="Version">
   <img src="https://img.shields.io/badge/PWA-Soportado-brightgreen?style=for-the-badge&logo=progressive-web-apps" alt="PWA">
   <img src="https://img.shields.io/badge/Offline-100%25_Autónomo-success?style=for-the-badge" alt="Offline Ready">
 </p>
@@ -14,10 +14,15 @@
 
 ## ✨ Características Principales
 
+*   **🏛️ Panel Hero de Tasas Desacoplado**: Extracción del módulo de cotizaciones fuera del contenedor de interacción de la calculadora a un bloque superior independiente, manteniendo la distribución clásica optimizada con tasas oficiales (Dólar BCV y Euro BCV) lado a lado y la tasa USDT P2P centrada debajo.
+*   **📈 Módulo de Proyección Cambiaria e Inflación con Gráfica Integrada**: Simulador analítico interactivo con estimación mensual de devaluación del BCV, horizontes de tiempo (7d, 15d, 30d, 60d, 90d), escenarios ajustables y gráfica interactiva de tendencia histórica real más proyección estimada continua (línea punteada dorada, punto Hoy en verde esmeralda y tooltip táctil).
+*   **🕒 Carga Fidedigna del Historial de Cálculos**: Al recuperar una conversión previa del historial, se utiliza exactamente la cotización del día en que se realizó (`tasaNum`), bloqueando la conversión con absoluta fidelidad histórica e incorporando un banner interactivo que permite comparar y alternar con un toque a la tasa en vivo de hoy.
+*   **📅 Fidelidad Calendario y Fechas Exactas en Histórico**: Filtro temporal calibrado por días exactos de calendario (1 Año = misma fecha de hoy pero del año pasado, 6m, 3m, 1m, 10d) y visualización completa de fechas `DD/MM/AAAA`.
+*   **🪙 Binance P2P Directo Sin Fallbacks Inexactos**: Consulta exclusiva y fidedigna a la API oficial de Binance P2P vía CriptoYa, eliminando proveedores alternativos de cotización inexacta (Yadio) y recurriendo a la última cotización real en caché local en caso de interrupción de red.
 *   **🕒 Historial de Cálculos Integrado**: Sección desplegable que registra cronológicamente cada conversión efectuada (`localStorage`), detallando fecha/hora, divisa, tipo de tasa aplicada, monto de entrada y total resultante, con botones de un toque para copiar montos formateados a 2 decimales para bancos o recargar los valores en los campos de la calculadora.
 *   **🏦 Copiado Bancario Estricto a 2 Decimales**: El botón "Copiar número" normaliza estrictamente a dos cifras decimales con coma decimal y sin separadores de miles (ej. `162938,16`), evitando que se trasladen 3 o más decimales que multipliquen por 10 el importe en apps bancarias móviles (Pago Móvil / Transferencias).
 *   **✍️ Solución a Copiado en Tasa Personalizada y Montos Redondos**: Eliminación de bloqueos silenciosos al copiar cifras con `0,00` y reconocimiento pleno de etiquetas y símbolos para tasas personalizadas.
-*   **📶 Blindaje 100% Offline y Estilos Autónomos**: Hoja de estilos autónoma local (`styles.css`) precacheada en `sw.js` (`valo-v33`), tipografía de sistema de alta fidelidad y contrastes oscuros reforzados para erradicar la pérdida de diseño y textos ilegibles ante fallos de CDN o sesiones offline prolongadas.
+*   **📶 Blindaje 100% Offline y Estilos Autónomos**: Hoja de estilos autónoma local (`styles.css`) precacheada en `sw.js` (`valo-v34`), tipografía de sistema de alta fidelidad y contrastes oscuros reforzados para erradicar la pérdida de diseño y textos ilegibles ante fallos de CDN o sesiones offline prolongadas.
 *   **⚡ Modo de Prueba Offline por URL (`?test_offline=true`)**: Parámetro especial para auditar y verificar el comportamiento y renderizado completamente offline de la app directamente desde el smartphone sin apagar el Wi-Fi.
 *   **🔢 Calculadora Aritmética Integrada (+, −, ×, ÷)**: Posibilidad de escribir y resolver operaciones matemáticas directamente en los campos de entrada de Divisa y Bolívares con barra táctil de operadores rápidos especialmente diseñada para su uso en smartphones.
 *   **🏛️ Sincronización en Vivo de Tasa Emitida (Próximo Día / Lunes)**: Aviso informativo y selector unificados entre el cuadro principal y los selectores; al seleccionar `[ ✨ Nueva ]`, el cuadro principal de tasas (Hero Rates) y los diferenciales se actualizan de forma instantánea.
@@ -43,7 +48,7 @@
 *   **APIs Externas**:
     *   [DolarVzla](https://rates.dolarvzla.com/) para cotizaciones oficiales actuales y emitidas del BCV.
     *   [DolarAPI](https://dolarapi.com/) para históricos y como fallback.
-    *   [CriptoYa](https://criptoya.com/) y [Yadio](https://yadio.io/) (como fallback) para tasas promedio de Binance P2P.
+    *   [CriptoYa](https://criptoya.com/) para cotización de mercado directa de Binance P2P.
 *   **Servidor**: Express JS (servidor local mínimo de contingencia para Single Page Apps).
 
 ---
